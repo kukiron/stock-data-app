@@ -5,6 +5,19 @@ export type ApiResponse<T> = BaseResponse & {
   result?: T;
 };
 
+/* --- Reducer types --- */
+
+export type Action = { type: string; payload?: any };
+export type CommonReducer<StateType> = (
+  state: StateType,
+  action: { type: string; payload?: any }
+) => StateType;
+
+export type AppState = {
+  errorMessage: string;
+  activeData: SearchedItem | null;
+};
+
 /* --- Data types --- */
 
 export type NewsFeed = {

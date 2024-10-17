@@ -108,7 +108,7 @@ function Searchbar() {
     <AutocompleteWrapper>
       <Autocomplete
         freeSolo
-        size="small"
+        // size="small"
         options={searchedResults}
         value={activeData || null} // fallback to `null` for no option
         inputValue={query}

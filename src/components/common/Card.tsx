@@ -1,7 +1,8 @@
-import { Card as MuiCard, CardHeader } from '@mui/material';
+import { Card as MuiCard, Typography } from '@mui/material';
+import type { SvgIconComponent } from '@mui/icons-material';
 import styled from 'styled-components';
 
-import { gray40 } from 'lib/colors';
+import { gray40, gray60 } from 'lib/colors';
 import Divider from './Divider';
 
 const StyledCard = styled(MuiCard)`
@@ -11,15 +12,44 @@ const StyledCard = styled(MuiCard)`
   margin-bottom: 1rem;
 `;
 
-type Props = {
+const FlexWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+  padding: 1rem;
+`;
+
+const IconWrapper = styled(FlexWrapper)`
+  padding: 0;
+  color: ${gray60};
+`;
+
+type HeaderProps = {
   title: string;
+  Icon?: SvgIconComponent;
+};
+
+type Props = HeaderProps & {
   children: React.ReactNode;
 };
 
-function Card({ title, children }: Props) {
+function CardHeader({ title, Icon }: HeaderProps) {
+  return (
+    <FlexWrapper>
+      {Icon && (
+        <IconWrapper>
+          <Icon />
+        </IconWrapper>
+      )}
+      <Typography variant="h5">{title}</Typography>
+    </FlexWrapper>
+  );
+}
+
+function Card({ children, ...rest }: Props) {
   return (
     <StyledCard>
-      <CardHeader title={title} />
+      <CardHeader {...rest} />
       <Divider />
       {children}
     </StyledCard>

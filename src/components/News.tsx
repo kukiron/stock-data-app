@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { CardContent, Typography } from '@mui/material';
+import NewsIcon from '@mui/icons-material/Newspaper';
 import styled from 'styled-components';
 
 import { fetchLatestNews } from 'data/api';
@@ -125,7 +126,11 @@ function News() {
     );
   };
 
-  return <Card title="In the News">{renderContent()}</Card>;
+  return (
+    <Card title="In the News" Icon={NewsIcon}>
+      {renderContent()}
+    </Card>
+  );
 }
 
 export default News;

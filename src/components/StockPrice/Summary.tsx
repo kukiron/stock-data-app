@@ -14,6 +14,7 @@ const FlexWrapper = styled.div`
 
 const Wrapper = styled.div`
   margin-bottom: 1rem;
+  letter-spacing: 0.5px;
 `;
 
 const Separator = styled.div`
@@ -40,7 +41,7 @@ function Summary({ price, date }: Props) {
 
   return (
     <Wrapper>
-      <Typography variant="h3" color="text.primary">
+      <Typography variant="h4" color="text.primary">
         {price} {currency || ''}
       </Typography>
 

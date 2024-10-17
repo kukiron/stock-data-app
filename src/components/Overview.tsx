@@ -1,6 +1,8 @@
 import keys from 'lodash/keys';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { CardContent, Typography } from '@mui/material';
+import FinancialsIcon from '@mui/icons-material/AccountBalance';
+import CompanyIcon from '@mui/icons-material/Business';
 import styled from 'styled-components';
 
 import { fetchCompanyOverview } from 'data/api';
@@ -105,7 +107,7 @@ function Financials() {
 
   return (
     <Container>
-      <Card title="Company">
+      <Card title="Company" Icon={CompanyIcon}>
         <CardContent>{<p>{overview.Description}</p>}</CardContent>
         <Divider />
         <CardContent>
@@ -137,7 +139,7 @@ function Financials() {
         </CardContent>
       </Card>
 
-      <Card title="Financials">
+      <Card title="Financials" Icon={FinancialsIcon}>
         <CardContent>
           {financials.map((key) => {
             const value = overview[key as keyof CompanyOverview];

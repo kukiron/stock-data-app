@@ -1,5 +1,6 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { CardContent, CircularProgress, Typography } from '@mui/material';
+import ChartIcon from '@mui/icons-material/ShowChart';
 import styled from 'styled-components';
 
 import { fetchDailyStockData } from 'data/api';
@@ -78,7 +79,7 @@ function StockPrice() {
   };
 
   return (
-    <Card title="Stock Price">
+    <Card title="Stock Price" Icon={ChartIcon}>
       <CardContent sx={{ p: 3, mb: 1 }}>{renderContent()}</CardContent>
     </Card>
   );

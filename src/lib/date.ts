@@ -1,3 +1,5 @@
+// get the published time of a news post in the news feed
+// time format in API response: YYYYMMDDTHHMMSS
 export const getPublishedTime = (time: string) => {
   const rawDate = time.split('T')[0];
 

@@ -31,12 +31,12 @@ const StyledPopper = muiStyled(Popper)(() => ({
 
 function Searchbar() {
   const { activeData, setActiveData } = useContext(StockContext);
+
   const [searchedResults, setSearchedResults] = useState<SearchedItem[]>([]);
   const [query, setQuery] = useState(activeData?.symbol || DEFAULT_SYMBOL);
   const [loading, setLoading] = useState(false);
 
   const handleFetchStockData = useDebounce(async (text: string) => {
-    console.log({ query });
     if (!query.length) {
       setSearchedResults([]);
       return;
@@ -47,7 +47,7 @@ function Searchbar() {
 
     if (success && result) {
       const { bestMatches } = result;
-      // set activeData instead of dropdown options, if NOT avaialbe
+      // set activeData, if NOT avaialbe, instead of dropdown options
       if (!activeData) {
         setActiveData(
           find(bestMatches, ['item.symbol', text]) || bestMatches[0]
@@ -62,7 +62,7 @@ function Searchbar() {
   }, 500);
 
   const handleSelect = (
-    event: SyntheticEvent,
+    _: SyntheticEvent,
     value: SearchedItem | string | null
   ) => {
     const selectedItem = value && typeof value !== 'string' ? value : null;

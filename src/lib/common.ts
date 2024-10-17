@@ -1,17 +1,18 @@
+import keys from 'lodash/keys';
+import slice from 'lodash/slice';
+import sortBy from 'lodash/sortBy';
+
 import { NewsResponse, UnformattedSearchedResult } from 'data/types';
 
 // get the first 5 news feed based on sentiment score
 export const formatNewsResponse = (news: NewsResponse) =>
-  news.feed
-    .sort((a, b) => b.overall_sentiment_score - a.overall_sentiment_score)
-    .slice(0, 6);
+  slice(sortBy(news.feed, 'overall_sentiment_score'), 0, 6);
 
-export const formatInfoTitle = (title: string) => {
-  return title.replace(/([A-Z])/g, ' $1').replace(/^./, function (str) {
-    return str.toUpperCase();
-  });
-};
+// format company overview table title
+export const formatInfoTitle = (title: string) =>
+  title.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase());
 
+// format financial values for display
 export const formatFiancialValue = (key: string, value: string) => {
   switch (key) {
     case 'MarketCapitalization':
@@ -34,12 +35,12 @@ export const formatFiancialValue = (key: string, value: string) => {
   }
 };
 
+// format searched result object keys
 export const formatSearchedResults = (results: UnformattedSearchedResult) => ({
-  bestMatches: results.bestMatches.map((item) => {
-    const keys = Object.keys(item);
-    return keys.reduce((acc, key) => {
+  bestMatches: results.bestMatches.map((item) =>
+    keys(item).reduce((acc, key) => {
       const formattedKey = key.split('. ')[1].trim();
       return { ...acc, [formattedKey]: item[key] };
-    }, {});
-  }),
+    }, {})
+  ),
 });

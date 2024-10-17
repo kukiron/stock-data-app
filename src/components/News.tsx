@@ -58,8 +58,6 @@ function News() {
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
 
-  console.log({ loading, activeData });
-
   useEffect(() => {
     if (activeData) {
       fetchLatestNews(activeData.symbol).then(

@@ -1,3 +1,4 @@
+import keys from 'lodash/keys';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { CardContent, Typography } from '@mui/material';
 import styled from 'styled-components';
@@ -44,7 +45,7 @@ function Financials() {
   const [loading, setLoading] = useState<boolean>(true);
 
   const { financials, company } = useMemo(() => {
-    const overviewItems = overview ? Object.keys(overview) : [];
+    const overviewItems = overview ? keys(overview) : [];
     return overviewItems.reduce<{ financials: string[]; company: string[] }>(
       (acc, item) => {
         switch (true) {

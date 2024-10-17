@@ -1,15 +1,25 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { createRoot } from 'react-dom/client';
+import { createTheme, ThemeProvider } from '@mui/material';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+import reportWebVitals from './reportWebVitals';
+import App from './App';
+import './index.css';
+
+const theme = createTheme({
+  typography: {
+    fontFamily: ['Poppins', 'Roboto', '"Helvetica Neue"'].join(','),
+  },
+});
+
+const container = document.getElementById('root')!;
+const root = createRoot(container);
+
 root.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>
 );
 

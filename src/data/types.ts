@@ -79,14 +79,49 @@ export type SearchedItem = {
   matchScore: string;
 };
 
-export type UnformattedSearchedItem = {
+type Record = {
   [key: string]: string;
 };
 
 export type UnformattedSearchedResult = {
-  bestMatches: UnformattedSearchedItem[];
+  bestMatches: Record[];
 };
 
 export type SearchResult = {
   bestMatches: SearchedItem[];
+};
+
+export type DailyStockInfo = {
+  open: string;
+  high: string;
+  low: string;
+  close: string;
+  volume: string;
+};
+
+export type DaiyStockMetaData = {
+  Information: string;
+  Symbol: string;
+  'Last Refreshed': string;
+  'Output Size': string;
+  'Time Zone': string;
+};
+
+export type UnformattedDailyStockResult = {
+  'Meta Data': Record;
+  'Time Series (Daily)': {
+    [key: string]: Record;
+  };
+};
+
+export type DailyStockResult = {
+  'Meta Data': DaiyStockMetaData;
+  'Time Series': {
+    [key: string]: DailyStockInfo;
+  };
+};
+
+export type DailyStockChartItem = {
+  date: string;
+  closingPrice: number;
 };

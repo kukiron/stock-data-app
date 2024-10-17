@@ -4,10 +4,10 @@ import { Autocomplete, TextField, Popper } from '@mui/material';
 import { styled as muiStyled } from '@mui/material/styles';
 import styled from 'styled-components';
 
-import { searchStockData } from 'data';
+import { searchStockData } from 'data/api';
 import { SearchedItem } from 'data/types';
 import useDebounce from 'hooks/useDebounce';
-import { DEFAULT_SYMBOL } from 'lib/constants';
+import { ActionTypes, DEFAULT_SYMBOL } from 'lib/constants';
 
 import { StockContext } from 'contexts/StockContext';
 
@@ -30,7 +30,10 @@ const StyledPopper = muiStyled(Popper)(() => ({
 }));
 
 function Searchbar() {
-  const { activeData, setActiveData } = useContext(StockContext);
+  const {
+    appState: { activeData },
+    updateAppState,
+  } = useContext(StockContext);
 
   const [searchedResults, setSearchedResults] = useState<SearchedItem[]>([]);
   const [query, setQuery] = useState(activeData?.symbol || DEFAULT_SYMBOL);
@@ -43,21 +46,29 @@ function Searchbar() {
     }
 
     setLoading(true);
-    const { success, result } = await searchStockData(text);
+    const { success, message, result } = await searchStockData(text);
 
-    if (success && result) {
-      const { bestMatches } = result;
-      // set activeData, if NOT avaialbe, instead of dropdown options
-      if (!activeData) {
-        setActiveData(
-          find(bestMatches, ['item.symbol', text]) || bestMatches[0]
-        );
-        return;
-      }
-
-      // otherwise set the dropdown options
-      setSearchedResults(bestMatches);
+    if (!success || !result) {
+      updateAppState({
+        type: ActionTypes.UPDATE_APP_STATE,
+        payload: { errorMessage: message, activeData: null },
+      });
+      setLoading(false);
+      return;
     }
+
+    const { bestMatches } = result;
+    // set activeData, if NOT avaialbe, instead of dropdown options
+    if (!activeData) {
+      updateAppState({
+        type: ActionTypes.UPDATE_ACTIVE_DATA,
+        payload: find(bestMatches, ['item.symbol', text]) || bestMatches[0],
+      });
+      return;
+    }
+
+    // otherwise set the dropdown options
+    setSearchedResults(bestMatches);
     setLoading(false);
   }, 500);
 
@@ -66,7 +77,10 @@ function Searchbar() {
     value: SearchedItem | string | null
   ) => {
     const selectedItem = value && typeof value !== 'string' ? value : null;
-    setActiveData(selectedItem);
+    updateAppState({
+      type: ActionTypes.UPDATE_ACTIVE_DATA,
+      payload: selectedItem,
+    });
   };
 
   useEffect(() => {

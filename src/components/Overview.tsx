@@ -3,7 +3,7 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import { CardContent, Typography } from '@mui/material';
 import styled from 'styled-components';
 
-import { fetchCompanyOverview } from 'data';
+import { fetchCompanyOverview } from 'data/api';
 import { CompanyOverview } from 'data/types';
 import { gray80 } from 'lib/colors';
 import { OVERVIEW_FIELDS } from 'lib/constants';
@@ -39,7 +39,9 @@ const GridWrapper = styled.div`
 `;
 
 function Financials() {
-  const { activeData } = useContext(StockContext);
+  const {
+    appState: { activeData },
+  } = useContext(StockContext);
 
   const [overview, setOverview] = useState<CompanyOverview>();
   const [error, setError] = useState<string>('');

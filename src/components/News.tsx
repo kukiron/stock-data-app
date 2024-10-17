@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { CardContent, Typography } from '@mui/material';
 import styled from 'styled-components';
 
-import { fetchLatestNews } from 'data';
+import { fetchLatestNews } from 'data/api';
 import type { NewsFeed } from 'data/types';
 import { getPublishedTime } from 'lib/date';
 import { gray20, gray50, gray70 } from 'lib/colors';
@@ -53,7 +53,9 @@ const Separator = styled.div`
 `;
 
 function News() {
-  const { activeData } = useContext(StockContext);
+  const {
+    appState: { activeData },
+  } = useContext(StockContext);
 
   const [newsFeed, setNewsFeed] = useState<NewsFeed[]>([]);
   const [error, setError] = useState<string>('');

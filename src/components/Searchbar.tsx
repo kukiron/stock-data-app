@@ -7,8 +7,8 @@ import styled from 'styled-components';
 
 import { searchStockData } from 'data/api';
 import { SearchedItem } from 'data/types';
+import { ActionTypes, DEFAULT_QUERY } from 'lib/constants';
 import useDebounce from 'hooks/useDebounce';
-import { ActionTypes, DEFAULT_SYMBOL } from 'lib/constants';
 
 import { StockContext } from 'contexts/StockContext';
 import { gray50 } from 'lib/colors';
@@ -41,19 +41,23 @@ function Searchbar() {
     appState: { activeData },
     updateAppState,
   } = useContext(StockContext);
+  const initialQuery = activeData
+    ? `${activeData.symbol} - ${activeData.name}`
+    : DEFAULT_QUERY;
 
   const [searchedResults, setSearchedResults] = useState<SearchedItem[]>([]);
-  const [query, setQuery] = useState(activeData?.symbol || DEFAULT_SYMBOL);
+  const [query, setQuery] = useState(initialQuery);
   const [loading, setLoading] = useState(false);
 
   const handleFetchStockData = useDebounce(async (text: string) => {
-    if (!query.length) {
+    if (!text.length) {
       setSearchedResults([]);
       return;
     }
 
     setLoading(true);
-    const { success, message, result } = await searchStockData(text);
+    const queryText = text.split('-')[0].trim();
+    const { success, message, result } = await searchStockData(queryText);
 
     if (!success || !result) {
       updateAppState({
@@ -69,7 +73,8 @@ function Searchbar() {
     if (!activeData) {
       updateAppState({
         type: ActionTypes.UPDATE_ACTIVE_DATA,
-        payload: find(bestMatches, ['item.symbol', text]) || bestMatches[0],
+        payload:
+          find(bestMatches, ['item.symbol', queryText]) || bestMatches[0],
       });
       return;
     }
@@ -94,6 +99,11 @@ function Searchbar() {
     handleFetchStockData(query);
   }, [query]); // eslint-disable-line
 
+  const renderOptionText = (option: SearchedItem | string) => {
+    const { symbol, name } = option as SearchedItem;
+    return `${symbol} - ${name}`;
+  };
+
   return (
     <AutocompleteWrapper>
       <Autocomplete
@@ -104,7 +114,7 @@ function Searchbar() {
         inputValue={query}
         onChange={handleSelect}
         onInputChange={(_, value: string) => setQuery(value)}
-        getOptionLabel={(option) => (option as SearchedItem).symbol}
+        getOptionLabel={renderOptionText}
         loading={loading}
         renderInput={(params) => (
           <TextField

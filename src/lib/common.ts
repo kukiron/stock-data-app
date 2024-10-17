@@ -2,7 +2,11 @@ import keys from 'lodash/keys';
 import slice from 'lodash/slice';
 import sortBy from 'lodash/sortBy';
 
-import { NewsResponse, UnformattedSearchedResult } from 'data/types';
+import {
+  NewsResponse,
+  SearchedItem,
+  UnformattedSearchedResult,
+} from 'data/types';
 
 // get the first 5 news feed based on sentiment score
 export const formatNewsResponse = (news: NewsResponse) =>
@@ -41,6 +45,6 @@ export const formatSearchedResults = (results: UnformattedSearchedResult) => ({
     keys(item).reduce((acc, key) => {
       const formattedKey = key.split('. ')[1].trim();
       return { ...acc, [formattedKey]: item[key] };
-    }, {})
+    }, {} as SearchedItem)
   ),
 });

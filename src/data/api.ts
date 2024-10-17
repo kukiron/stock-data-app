@@ -9,36 +9,33 @@ const FETCH_OPTIONS = {
     'Content-Type': 'application/json',
   },
 };
+const API_KEY = process.env.REACT_APP_API_KEY || 'demo';
 
-export const checkApiResponse = (result: any) =>
-  !result?.Information?.includes(
-    'The **demo** API key is for demo purposes only.'
-  ) && result;
-
-export const fetchLatestNews = async (
-  tickers: string
-): Promise<ApiResponse<NewsFeed[]>> => {
+export const searchStockData = async (
+  keywords: string
+): Promise<ApiResponse<SearchResult>> => {
   const queryParams = new URLSearchParams({
-    function: 'NEWS_SENTIMENT',
-    tickers: 'AAPL',
-    apikey: 'demo',
-    // apikey: API_KEY,
+    function: 'SYMBOL_SEARCH',
+    keywords,
+    apikey: API_KEY,
   });
   const url = `${BASE_URL}?${queryParams.toString()}`;
 
   try {
     const response = await fetch(url, FETCH_OPTIONS);
     const result = await response.json();
+    // check if the response includes API limit message
+    const apiLimitMessage = result?.Information || '';
     return {
       success: true,
-      message: 'Latest news fetched successfully.',
-      result: checkApiResponse(formatNewsResponse(result)),
+      message: apiLimitMessage || 'Search results fetched successfully.',
+      result: !apiLimitMessage ? formatSearchedResults(result) : undefined,
     };
   } catch (error) {
-    console.log('Error fetching latest news.', error);
+    console.log('Error fetching search results.', error);
     return {
       success: false,
-      message: 'Failed to fetch latest news.',
+      message: 'Failed to fetch search results.',
     };
   }
 };
@@ -48,9 +45,9 @@ export const fetchCompanyOverview = async (
 ): Promise<ApiResponse<CompanyOverview>> => {
   const queryParams = new URLSearchParams({
     function: 'OVERVIEW',
-    symbol: 'IBM',
-    // apikey: API_KEY,
-    apikey: 'demo',
+    // symbol: 'IBM',
+    symbol,
+    apikey: API_KEY,
   });
   const url = `${BASE_URL}?${queryParams.toString()}`;
 
@@ -60,7 +57,7 @@ export const fetchCompanyOverview = async (
     return {
       success: true,
       message: 'Company overview fetched successfully.',
-      result: checkApiResponse(result),
+      result,
     };
   } catch (error) {
     console.log('Error fetching company overview.', error);
@@ -71,14 +68,14 @@ export const fetchCompanyOverview = async (
   }
 };
 
-export const searchStockData = async (
-  keywords: string
-): Promise<ApiResponse<SearchResult>> => {
+export const fetchLatestNews = async (
+  tickers: string
+): Promise<ApiResponse<NewsFeed[]>> => {
   const queryParams = new URLSearchParams({
-    function: 'SYMBOL_SEARCH',
-    keywords,
-    apikey: 'demo',
-    // apikey: API_KEY,
+    function: 'NEWS_SENTIMENT',
+    // tickers: 'AAPL',
+    tickers,
+    apikey: API_KEY,
   });
   const url = `${BASE_URL}?${queryParams.toString()}`;
 
@@ -87,14 +84,14 @@ export const searchStockData = async (
     const result = await response.json();
     return {
       success: true,
-      message: 'Search results fetched successfully.',
-      result: checkApiResponse(formatSearchedResults(result)),
+      message: 'Latest news fetched successfully.',
+      result: formatNewsResponse(result),
     };
   } catch (error) {
-    console.log('Error fetching search results.', error);
+    console.log('Error fetching latest news.', error);
     return {
       success: false,
-      message: 'Failed to fetch search results.',
+      message: 'Failed to fetch latest news.',
     };
   }
 };

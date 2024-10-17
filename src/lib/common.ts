@@ -4,7 +4,7 @@ import sortBy from 'lodash/sortBy';
 
 import {
   NewsResponse,
-  SearchedItem,
+  UnformattedDailyStockResult,
   UnformattedSearchedResult,
 } from 'data/types';
 
@@ -40,11 +40,24 @@ export const formatFiancialValue = (key: string, value: string) => {
 };
 
 // format searched result object keys
+const formatObject = (item: { [key: string]: any }) =>
+  keys(item).reduce((acc, key) => {
+    const formattedKey = key.split('. ')[1].trim();
+    return { ...acc, [formattedKey]: item[key] };
+  }, {} as any);
+
 export const formatSearchedResults = (results: UnformattedSearchedResult) => ({
-  bestMatches: results.bestMatches.map((item) =>
-    keys(item).reduce((acc, key) => {
-      const formattedKey = key.split('. ')[1].trim();
-      return { ...acc, [formattedKey]: item[key] };
-    }, {} as SearchedItem)
-  ),
+  bestMatches: results.bestMatches.map(formatObject),
 });
+
+export const formatDailyStockResults = (
+  results: UnformattedDailyStockResult
+) => {
+  const { 'Meta Data': metaData, 'Time Series (Daily)': timeSeries } = results;
+  return {
+    'Meta Data': formatObject(metaData),
+    'Time Series': keys(timeSeries).reduce((acc, date) => {
+      return { ...acc, [date]: formatObject(timeSeries[date]) };
+    }, {} as any),
+  };
+};

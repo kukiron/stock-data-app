@@ -3,6 +3,7 @@ import { createContext, Dispatch, useReducer } from 'react';
 import NewsFeed from 'components/News';
 import CompanyOverview from 'components/Overview';
 import Searchbar from 'components/Searchbar';
+import StockPrice from 'components/StockPrice';
 import { ApiLimitCard } from 'components/common';
 
 import { appStateReducer } from 'data/reducers';
@@ -35,6 +36,7 @@ export default function CompanyStock() {
     }
     return (
       <>
+        <StockPrice />
         <CompanyOverview />
         <NewsFeed />
       </>

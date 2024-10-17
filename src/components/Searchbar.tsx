@@ -1,6 +1,7 @@
 import find from 'lodash/find';
 import { SyntheticEvent, useContext, useEffect, useState } from 'react';
 import { Autocomplete, TextField, Popper } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 import { styled as muiStyled } from '@mui/material/styles';
 import styled from 'styled-components';
 
@@ -10,6 +11,7 @@ import useDebounce from 'hooks/useDebounce';
 import { ActionTypes, DEFAULT_SYMBOL } from 'lib/constants';
 
 import { StockContext } from 'contexts/StockContext';
+import { gray50 } from 'lib/colors';
 
 const listStyles = {
   maxHeight: '250px',
@@ -21,6 +23,11 @@ const listStyles = {
 const AutocompleteWrapper = styled.div`
   margin-bottom: 1rem;
   background-color: white;
+`;
+
+const StyledSearchIcon = styled(SearchIcon)`
+  margin-left: 0.5rem;
+  color: ${gray50};
 `;
 
 const StyledPopper = muiStyled(Popper)(() => ({
@@ -103,6 +110,12 @@ function Searchbar() {
           <TextField
             {...params}
             placeholder="Type company symbol, e.g - NVDA"
+            slotProps={{
+              input: {
+                ...params.InputProps,
+                startAdornment: <StyledSearchIcon />,
+              },
+            }}
           />
         )}
         ListboxProps={{

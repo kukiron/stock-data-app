@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { fetchLatestNews } from 'data';
 import type { NewsFeed } from 'data/types';
 import { getPublishedTime } from 'lib/date';
+import { gray20, gray50, gray70 } from 'lib/colors';
 
 import { StockContext } from 'contexts/StockContext';
 import { Card, Divider, NewsLoaderSkeleton } from './common';
@@ -19,7 +20,7 @@ const Wrapper = styled.div`
   transition: background 200ms ease-in-out;
 
   &:hover {
-    background: #f5f5f5;
+    background: ${gray20};
   }
 
   &:last-child {
@@ -33,7 +34,7 @@ const TextWrapper = styled.div`
   padding-bottom: 1rem;
   p {
     font-size: 0.8rem;
-    color: #757575;
+    color: ${gray70};
   }
 `;
 
@@ -48,7 +49,7 @@ const Separator = styled.div`
   width: 2px;
   height: 0.75rem;
   margin: 0 1rem;
-  background-color: #bdbdbd;
+  background-color: ${gray50};
 `;
 
 function News() {

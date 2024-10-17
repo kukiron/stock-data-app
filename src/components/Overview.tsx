@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import { fetchCompanyOverview } from 'data';
 import { CompanyOverview } from 'data/types';
+import { gray80 } from 'lib/colors';
 import { OVERVIEW_FIELDS } from 'lib/constants';
 import { formatFiancialValue, formatInfoTitle } from 'lib/common';
 
@@ -18,7 +19,7 @@ const Container = styled.div`
   margin-bottom: 1rem;
   p {
     font-size: 0.8rem;
-    color: #666;
+    color: ${gray80};
   }
 `;
 

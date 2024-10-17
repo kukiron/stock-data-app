@@ -9,6 +9,7 @@ import {
   Tooltip,
 } from 'recharts';
 
+import { blueGray, bluePurple, lightGreen } from 'lib/colors';
 import { DailyStockChartItem } from 'data/types';
 import CustomTooltip from './Tooltip';
 
@@ -26,8 +27,8 @@ function DailyStockChart({ data }: Props) {
       >
         <defs>
           <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+            <stop offset="5%" stopColor={lightGreen} stopOpacity={0.8} />
+            <stop offset="95%" stopColor={lightGreen} stopOpacity={0} />
           </linearGradient>
         </defs>
         <XAxis
@@ -36,17 +37,17 @@ function DailyStockChart({ data }: Props) {
           tickMargin={10}
           // padding={{ left: 40, right: 30 }}
           style={{
-            fill: '#5972A3',
+            fill: blueGray,
             fontSize: '0.8rem',
             fontWeight: '500',
           }}
-          tickLine={{ stroke: '#DCE4F3' }}
+          tickLine={{ stroke: bluePurple }}
         />
         <YAxis
           dataKey="closingPrice"
           axisLine={false}
           style={{
-            fill: '#5972A3',
+            fill: blueGray,
             fontSize: '0.8rem',
             fontWeight: '500',
           }}
@@ -61,7 +62,7 @@ function DailyStockChart({ data }: Props) {
         <Area
           type="monotone"
           dataKey="closingPrice"
-          stroke="#82ca9d"
+          stroke={lightGreen}
           fillOpacity={1}
           fill="url(#colorPv)"
         />

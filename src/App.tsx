@@ -1,4 +1,5 @@
 import CompanyStockData from 'contexts/StockContext';
+
 import './App.css';
 
 function App() {

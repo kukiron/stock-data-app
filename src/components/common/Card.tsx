@@ -2,7 +2,7 @@ import { Card as MuiCard, Typography } from '@mui/material';
 import type { SvgIconComponent } from '@mui/icons-material';
 import styled from 'styled-components';
 
-import { gray40, gray60 } from 'lib/colors';
+import { gray40, gray50 } from 'lib/colors';
 import Divider from './Divider';
 
 const StyledCard = styled(MuiCard)`
@@ -21,7 +21,7 @@ const FlexWrapper = styled.div`
 
 const IconWrapper = styled(FlexWrapper)`
   padding: 0;
-  color: ${gray60};
+  color: ${gray50};
 `;
 
 type HeaderProps = {

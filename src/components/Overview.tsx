@@ -81,7 +81,7 @@ function Financials() {
   if (loading) {
     return (
       <Container>
-        <Card title="Company Overview">
+        <Card title="Company Overview" Icon={CompanyIcon}>
           <OverviewLoaderSkeleton />
         </Card>
       </Container>
@@ -91,7 +91,7 @@ function Financials() {
   if (error || !overview) {
     return (
       <Container>
-        <Card title="Company Overview">
+        <Card title="Company Overview" Icon={CompanyIcon}>
           <Typography
             align="center"
             variant="subtitle1"

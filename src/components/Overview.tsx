@@ -15,8 +15,6 @@ import { Card, Divider, OverviewLoaderSkeleton } from 'components/common';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  row-gap: 1rem;
-  margin-bottom: 1rem;
   p {
     font-size: 0.8rem;
     color: ${gray80};
@@ -109,6 +107,7 @@ function Financials() {
     <Container>
       <Card title="Company">
         <CardContent>{<p>{overview.Description}</p>}</CardContent>
+        <Divider />
         <CardContent>
           {company.map((key) => {
             const value = overview[key as keyof CompanyOverview];

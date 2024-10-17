@@ -8,6 +8,7 @@ const StyledCard = styled(MuiCard)`
   border: 1px solid ${gray40};
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
   background-color: white;
+  margin-bottom: 1rem;
 `;
 
 type Props = {

@@ -21,8 +21,8 @@ const listStyles = {
 };
 
 const AutocompleteWrapper = styled.div`
-  margin-bottom: 1rem;
   background-color: white;
+  margin-bottom: 2rem;
 `;
 
 const StyledSearchIcon = styled(SearchIcon)`

@@ -15,6 +15,7 @@ export const OVERVIEW_FIELDS = {
     'PERatio',
     'ProfitMargin',
     'SharesOutstanding',
+    'Symbol',
   ],
   company: ['Address', 'Country', 'Industry', 'Name', 'OfficialSite', 'Sector'],
 };

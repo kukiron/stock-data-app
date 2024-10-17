@@ -1,3 +1,12 @@
+export const formatDate = (time: string, hideYear?: boolean) => {
+  const year = new Date(time).getFullYear();
+  const date = new Date(time).getDate();
+  const month = new Date(time).toLocaleString('default', {
+    month: 'long',
+  });
+  return `${month.substring(0, 3)} ${date}, ${year}`;
+};
+
 // get the published time of a news post in the news feed
 // time format in API response: YYYYMMDDTHHMMSS
 export const getPublishedTime = (time: string) => {
@@ -26,9 +35,5 @@ export const getPublishedTime = (time: string) => {
     return 'Published Yesterday';
   }
 
-  const publishedMonthName = new Date(formattedPublishedDate).toLocaleString(
-    'default',
-    { month: 'short' }
-  );
-  return `Published on ${publishedDate} ${publishedMonthName}, ${publishedYear}`;
+  return `Published on ${formatDate(formattedPublishedDate)}`;
 };

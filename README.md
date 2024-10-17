@@ -1,46 +1,44 @@
-# Getting Started with Create React App
+# Getting Started
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This app presents company stock price real-time data. It was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) using [Alpha Vantage API](https://www.alphavantage.co/documentation/#).
 
-## Available Scripts
+## Run the Project
 
-In the project directory, you can run:
+To run the project locally -
 
-### `npm start`
+```bash
+git clone git@github.com:kukiron/stock-data-app.git
+cd stock-data-app
+npm install && npm start
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+This should serve the app on `localhost:3000`.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### API Key
 
-### `npm test`
+If you have your own API key from Alpha Vantage you can set it up in `.env.development`. Or get a new one from [here](https://www.alphavantage.co/support/#api-key).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+_**Note that an API key has a limit of 25 calls a day.**_
 
-### `npm run build`
+If you're facing API limit issue, you can follow these steps -
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- use `demo` as API key in `.env.development`
+- use the commented out lines in `src/data/api.ts` file.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Then restart the server. This will use the demo data provided by Alpha Vantage.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Tools Used
 
-### `npm run eject`
+Tools used for the project -
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- TypeScript
+- Material UI React with Material UI Icons
+- Recharts: Charting library for React
+- Styled Components: Writing CSS in JS
+- ESLint & Prettier: for linting & formatting
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Deployment
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+The app is currently deployed on Netlify - [company-stock-data-app.netlify.app](https://company-stock-data-app.netlify.app/).
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+The production deployment also uses a free API key. So, the app might NOT work as expected if the API limit is already reached.

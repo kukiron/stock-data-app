@@ -21,8 +21,6 @@ const initialAppState = {
 
 export const StockContext = createContext({} as ContextState);
 
-// Company overview & news data are fetched based on searched result
-// if no searhced result, the following endpoint calls are skipped
 export default function CompanyStock() {
   const [appState, updateAppState] = useReducer(
     appStateReducer,

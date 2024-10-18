@@ -21,6 +21,13 @@ const FETCH_OPTIONS = {
 };
 const API_KEY = process.env.REACT_APP_API_KEY || 'demo';
 
+// response is failing with `Information` about API limit or other errors
+const handleFailedResponse = (response?: { Information: string }) => {
+  if (response?.Information) {
+    throw new Error();
+  }
+};
+
 export const searchStockData = async (
   keywords: string
 ): Promise<ApiResponse<SearchResult>> => {
@@ -35,12 +42,12 @@ export const searchStockData = async (
   try {
     const response = await fetch(url, FETCH_OPTIONS);
     const result = await response.json();
-    // check if the response includes API limit message
-    const apiLimitMessage = result?.Information || '';
+    handleFailedResponse(result);
+
     return {
       success: true,
-      message: apiLimitMessage || 'Search results fetched successfully.',
-      result: !apiLimitMessage ? formatSearchedResults(result) : undefined,
+      message: 'Search results fetched successfully.',
+      result: formatSearchedResults(result),
     };
   } catch (error) {
     console.log('Error fetching search results.', error);
@@ -65,6 +72,8 @@ export const fetchCompanyOverview = async (
   try {
     const response = await fetch(url, FETCH_OPTIONS);
     const result = await response.json();
+    handleFailedResponse(result);
+
     return {
       success: true,
       message: 'Company overview fetched successfully.',
@@ -93,6 +102,8 @@ export const fetchLatestNews = async (
   try {
     const response = await fetch(url, FETCH_OPTIONS);
     const result = await response.json();
+    handleFailedResponse(result);
+
     return {
       success: true,
       message: 'Latest news fetched successfully.',
@@ -121,6 +132,8 @@ export const fetchDailyStockData = async (
   try {
     const response = await fetch(url, FETCH_OPTIONS);
     const result = await response.json();
+    handleFailedResponse(result);
+
     return {
       success: true,
       message: 'Daily stock data fetched successfully.',

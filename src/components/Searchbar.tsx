@@ -58,13 +58,14 @@ function Searchbar() {
     setLoading(true);
     const queryText = text.split('-')[0].trim();
     const { success, message, result } = await searchStockData(queryText);
+    setLoading(false);
 
+    // update app state with error message if failed
     if (!success || !result) {
       updateAppState({
         type: ActionTypes.UPDATE_APP_STATE,
         payload: { errorMessage: message, activeData: null },
       });
-      setLoading(false);
       return;
     }
 
@@ -73,26 +74,26 @@ function Searchbar() {
     if (!activeData) {
       updateAppState({
         type: ActionTypes.UPDATE_ACTIVE_DATA,
-        payload:
-          find(bestMatches, ['item.symbol', queryText]) || bestMatches[0],
+        payload: find(bestMatches, ['symbol', queryText]) || bestMatches[0],
       });
       return;
     }
 
     // otherwise set the dropdown options
     setSearchedResults(bestMatches);
-    setLoading(false);
-  }, 500);
+  }, 1000);
 
   const handleSelect = (
     _: SyntheticEvent,
     value: SearchedItem | string | null
   ) => {
     const selectedItem = value && typeof value !== 'string' ? value : null;
-    updateAppState({
-      type: ActionTypes.UPDATE_ACTIVE_DATA,
-      payload: selectedItem,
-    });
+    if (selectedItem) {
+      updateAppState({
+        type: ActionTypes.UPDATE_ACTIVE_DATA,
+        payload: selectedItem,
+      });
+    }
   };
 
   useEffect(() => {

@@ -35,7 +35,7 @@ function Summary({ price, date }: Props) {
 
   if (!activeData) return null;
 
-  const { currency, marketClose, timezone, symbol } = activeData;
+  const { currency, marketClose, timezone, symbol, name } = activeData;
   const closingInfo =
     `${date ? `${formatDate(date)} at` : ''} ${marketClose} ${timezone}`.trim();
 
@@ -53,7 +53,7 @@ function Summary({ price, date }: Props) {
         <Separator />
 
         <Typography variant="body2" color="text.secondary">
-          {symbol}
+          <b>{symbol}</b> ({name})
         </Typography>
       </FlexWrapper>
     </Wrapper>

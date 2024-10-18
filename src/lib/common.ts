@@ -9,8 +9,8 @@ import {
 } from 'data/types';
 
 // get the first 5 news feed based on sentiment score
-export const formatNewsResponse = (news: NewsResponse) =>
-  slice(sortBy(news.feed, 'overall_sentiment_score'), 0, 6);
+export const formatNewsResponse = (result: NewsResponse) =>
+  slice(sortBy(result.feed, 'overall_sentiment_score'), 0, 6);
 
 // format company overview table title
 export const formatInfoTitle = (title: string) =>

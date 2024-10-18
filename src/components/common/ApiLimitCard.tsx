@@ -13,7 +13,7 @@ function ApiLimitCard() {
   return (
     <Card title="Stock Data Unavailable" Icon={UnavailableIcon}>
       <CardContent>
-        <Typography variant="body1" color="text.secondary">
+        <Typography variant="body1" color="error">
           {errorMessage}
         </Typography>
       </CardContent>

@@ -24,7 +24,7 @@ const API_KEY = process.env.REACT_APP_API_KEY || 'demo';
 // response is failing with `Information` about API limit or other errors
 const handleFailedResponse = (response?: { Information: string }) => {
   if (response?.Information) {
-    throw new Error();
+    throw new Error(response?.Information);
   }
 };
 
@@ -53,7 +53,7 @@ export const searchStockData = async (
     console.log('Error fetching search results.', error);
     return {
       success: false,
-      message: 'Failed to fetch search results.',
+      message: (error as any).message || 'Failed to fetch search results.',
     };
   }
 };

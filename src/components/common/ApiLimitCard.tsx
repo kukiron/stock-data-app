@@ -9,11 +9,14 @@ function ApiLimitCard() {
   const {
     appState: { errorMessage },
   } = useContext(StockContext);
+  const textColor = errorMessage.includes('Failed to fetch')
+    ? 'error'
+    : 'text.secondary';
 
   return (
     <Card title="Stock Data Unavailable" Icon={UnavailableIcon}>
       <CardContent>
-        <Typography variant="body1" color="error">
+        <Typography variant="body1" color={textColor}>
           {errorMessage}
         </Typography>
       </CardContent>

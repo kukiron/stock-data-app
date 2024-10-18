@@ -37,7 +37,7 @@ export const formatFiancialValue = (key: string, value: string) => {
   }
 };
 
-// format searched result object keys
+// format keys in result object
 const formatObject = (item: { [key: string]: any }) =>
   keys(item).reduce((acc, key) => {
     const formattedKey = key.split('. ')[1].trim();
@@ -54,8 +54,9 @@ export const formatDailyStockResults = (
   const { 'Meta Data': metaData, 'Time Series (Daily)': timeSeries } = results;
   return {
     'Meta Data': formatObject(metaData),
-    'Time Series': keys(timeSeries).reduce((acc, date) => {
-      return { ...acc, [date]: formatObject(timeSeries[date]) };
-    }, {} as any),
+    'Time Series': keys(timeSeries).reduce(
+      (acc, date) => ({ ...acc, [date]: formatObject(timeSeries[date]) }),
+      {}
+    ),
   };
 };

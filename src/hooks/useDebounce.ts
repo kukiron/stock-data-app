@@ -20,7 +20,7 @@ const useDebounce = (
   }, [callback]);
 
   const debouncedCallback = useMemo(() => {
-    const func = (...args: any): any => {
+    const func = (...args: any) => {
       ref.current?.(...args);
     };
 

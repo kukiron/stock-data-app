@@ -59,6 +59,6 @@ The following endpoints are used to build the app features.
 
 ## Deployment
 
-The app is currently deployed on Netlify - [company-stock-data-app.netlify.app](https://company-stock-data-app.netlify.app/).
+The app is currently deployed to Netlify - [company-stock-data-app.netlify.app](https://company-stock-data-app.netlify.app/).
 
 The production deployment also uses a free API key. So, the app might NOT work as expected if the API limit is already reached.

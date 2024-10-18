@@ -37,6 +37,26 @@ Tools used for the project -
 - Styled Components: Writing CSS in JS
 - ESLint & Prettier: for linting & formatting
 
+## App Overview
+
+The following endpoints are used to build the app features.
+
+- `/query?function=SYMBOL_SEARCH&keywords={symbol}&apikey={apiKey}`
+
+  Used to search stock data. The search result sets the currently active stock which is used in other API calls. If this endpoint returns an error or API limit message the subsequent API called are skipped.
+
+- `query?function=OVERVIEW&symbol={symbol}&apikey={apiKey}`
+
+  Used to show company information & stock related details/financial data.
+
+- `/query?function=NEWS_SENTIMENT&tickers={tickers}&apikey={apiKey}`
+
+  Used to fetch latest news on company in financial market. Top 6 news based on sentiment score is displayed,
+
+- `/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={apiKey}`
+
+   Used to display stock price trend in a line chart view with additional metadata.
+
 ## Deployment
 
 The app is currently deployed on Netlify - [company-stock-data-app.netlify.app](https://company-stock-data-app.netlify.app/).

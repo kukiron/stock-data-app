@@ -34,8 +34,9 @@ const ItemWrapper = styled.div`
 const GridWrapper = styled.div`
   display: grid;
   justify-content: space-between;
-  grid-template-columns: 1fr 1.5fr;
-  grid-gap: 0.5rem;
+  grid-template-columns: 1.25fr 1.5fr;
+  grid-gap: 1rem;
+  padding: 0 1rem;
 `;
 
 function Financials() {

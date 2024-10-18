@@ -37,6 +37,10 @@ const TextWrapper = styled.div`
     font-size: 0.8rem;
     color: ${gray70};
   }
+
+  div {
+    font-size: 0.9rem;
+  }
 `;
 
 const Image = styled.img`

@@ -23,7 +23,7 @@ function DailyStockChart({ data }: Props) {
       <AreaChart
         width={750}
         data={data}
-        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+        margin={{ top: 10, right: 25, left: 0, bottom: 0 }}
       >
         <defs>
           <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
@@ -35,7 +35,7 @@ function DailyStockChart({ data }: Props) {
           dataKey="date"
           axisLine={false}
           tickMargin={10}
-          // padding={{ left: 40, right: 30 }}
+          padding={{ left: 40 }}
           style={{
             fill: blueGray,
             fontSize: '0.8rem',
@@ -51,7 +51,7 @@ function DailyStockChart({ data }: Props) {
             fontSize: '0.8rem',
             fontWeight: '500',
           }}
-          // mirror
+          mirror
           scale="linear"
           tick={{ dy: 7 }}
           tickMargin={0}

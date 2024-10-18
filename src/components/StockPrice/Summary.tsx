@@ -23,6 +23,12 @@ const Separator = styled.div`
   background-color: ${gray70};
 `;
 
+const Name = styled.span`
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+`;
+
 type Props = {
   price: number;
   date?: string;
@@ -53,7 +59,7 @@ function Summary({ price, date }: Props) {
         <Separator />
 
         <Typography variant="body2" color="text.secondary">
-          <b>{symbol}</b> ({name})
+          <b>{symbol}</b> <Name>({name})</Name>
         </Typography>
       </FlexWrapper>
     </Wrapper>

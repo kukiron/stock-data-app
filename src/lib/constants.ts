@@ -1,6 +1,6 @@
 export const BASE_URL = 'https://www.alphavantage.co/query';
 
-export const DEFAULT_QUERY = 'NVDA - Nvidia Corporation';
+export const DEFAULT_QUERY = 'TSLA - Tesla Inc';
 
 export const OVERVIEW_FIELDS = {
   financials: [

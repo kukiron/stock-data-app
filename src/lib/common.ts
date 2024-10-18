@@ -22,10 +22,8 @@ export const formatFiancialValue = (key: string, value: string) => {
     case 'MarketCapitalization':
     case 'EBITDA':
     case 'SharesOutstanding': {
-      const divideBy =
-        value.length > 10 ? (value.length > 13 && 1.0e12) || 1.0e9 : 1.0e6;
-      const suffix =
-        value.length > 10 ? (value.length > 13 && 'T') || 'B' : 'M';
+      const divideBy = value.length > 10 ? 1.0e9 : 1.0e6;
+      const suffix = value.length > 10 ? 'B' : 'M';
       return `${(Number(value) / divideBy).toFixed(2)}${suffix}`;
     }
 

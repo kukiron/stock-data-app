@@ -64,7 +64,12 @@ function Summary({ price, metaData }: Props) {
         <Typography variant="body2" color="text.secondary">
           <b>{symbol}</b>
           {/* hide name for demo endpoints usage */}
-          {!demo ? <Name>({name})</Name> : null}
+          {!demo ? (
+            <Name>
+              {' - '}
+              {name}
+            </Name>
+          ) : null}
         </Typography>
       </FlexWrapper>
     </Wrapper>

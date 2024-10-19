@@ -41,6 +41,7 @@ const GridWrapper = styled.div`
 
 function Financials() {
   const {
+    demo,
     appState: { activeData },
   } = useContext(StockContext);
 
@@ -66,18 +67,17 @@ function Financials() {
   }, [overview]);
 
   useEffect(() => {
-    if (activeData) {
-      fetchCompanyOverview(activeData.symbol).then(
-        ({ success, message, result }) => {
-          if (!success || !result) {
-            setError(message);
-          }
-          setOverview(result);
-          setLoading(false);
+    const input = !demo ? activeData?.symbol : undefined;
+    if (demo || activeData) {
+      fetchCompanyOverview(input).then(({ success, message, result }) => {
+        if (!success || !result) {
+          setError(message);
         }
-      );
+        setOverview(result);
+        setLoading(false);
+      });
     }
-  }, [activeData]);
+  }, [demo, activeData]);
 
   if (loading) {
     return (
@@ -109,7 +109,9 @@ function Financials() {
   return (
     <Container>
       <Card title="Company" Icon={CompanyIcon}>
-        <CardContent>{<p>{overview.Description}</p>}</CardContent>
+        <CardContent sx={{ lineHeight: 1.5 }}>
+          {<p>{overview.Description}</p>}
+        </CardContent>
         <Divider />
         <CardContent>
           {company.map((key) => {

@@ -23,6 +23,7 @@ const LoaderWrapper = styled.div`
 
 function StockPrice() {
   const {
+    demo,
     appState: { activeData },
   } = useContext(StockContext);
 
@@ -36,18 +37,17 @@ function StockPrice() {
   );
 
   useEffect(() => {
-    if (activeData) {
-      fetchDailyStockData(activeData.symbol).then(
-        ({ success, message, result }) => {
-          if (!success || !result) {
-            setError(message);
-          }
-          setDailyStock(result || null);
-          setLoading(false);
+    const input = !demo ? activeData?.symbol : undefined;
+    if (demo || activeData) {
+      fetchDailyStockData(input).then(({ success, message, result }) => {
+        if (!success || !result) {
+          setError(message);
         }
-      );
+        setDailyStock(result || null);
+        setLoading(false);
+      });
     }
-  }, [activeData]);
+  }, [demo, activeData]);
 
   const renderContent = () => {
     if (loading) {

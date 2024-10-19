@@ -38,6 +38,7 @@ const StyledPopper = muiStyled(Popper)(() => ({
 
 function Searchbar() {
   const {
+    demo,
     appState: { activeData },
     updateAppState,
   } = useContext(StockContext);
@@ -49,39 +50,42 @@ function Searchbar() {
   const [query, setQuery] = useState(initialQuery);
   const [loading, setLoading] = useState(false);
 
-  const handleFetchStockData = useDebounce(async (text: string) => {
-    if (!text.length) {
-      setSearchedResults([]);
-      return;
-    }
+  const handleFetchStockData = useDebounce(
+    async (text: string, isDemo: boolean) => {
+      if (!text.length) {
+        setSearchedResults([]);
+        return;
+      }
 
-    setLoading(true);
-    const queryText = text.split('-')[0].trim();
-    const { success, message, result } = await searchStockData(queryText);
-    setLoading(false);
+      setLoading(true);
+      const queryText = !isDemo ? text.split('-')[0].trim() : undefined;
+      const { success, message, result } = await searchStockData(queryText);
+      setLoading(false);
 
-    // update app state with error message if failed
-    if (!success || !result) {
-      updateAppState({
-        type: ActionTypes.UPDATE_APP_STATE,
-        payload: { errorMessage: message, activeData: null },
-      });
-      return;
-    }
+      // update app state with error message if failed
+      if (!success || !result) {
+        updateAppState({
+          type: ActionTypes.UPDATE_APP_STATE,
+          payload: { errorMessage: message, activeData: null },
+        });
+        return;
+      }
 
-    const { bestMatches } = result;
-    // set activeData, if NOT avaialbe, instead of dropdown options
-    if (!activeData) {
-      updateAppState({
-        type: ActionTypes.UPDATE_ACTIVE_DATA,
-        payload: find(bestMatches, ['symbol', queryText]) || bestMatches[0],
-      });
-      return;
-    }
+      const { bestMatches } = result;
+      // set activeData, if NOT avaialbe, instead of dropdown options
+      if (!activeData) {
+        updateAppState({
+          type: ActionTypes.UPDATE_ACTIVE_DATA,
+          payload: find(bestMatches, ['symbol', queryText]) || bestMatches[0],
+        });
+        return;
+      }
 
-    // otherwise set the dropdown options
-    setSearchedResults(bestMatches);
-  }, 1000);
+      // otherwise set the dropdown options
+      setSearchedResults(bestMatches);
+    },
+    1000
+  );
 
   const handleSelect = (
     _: SyntheticEvent,
@@ -97,10 +101,14 @@ function Searchbar() {
   };
 
   useEffect(() => {
-    handleFetchStockData(query);
-  }, [query]); // eslint-disable-line
+    handleFetchStockData(query, demo);
+  }, [demo, query]); // eslint-disable-line
 
   const renderOptionText = (option: SearchedItem | string) => {
+    if (typeof option === 'string') {
+      return option;
+    }
+
     const { symbol, name } = option as SearchedItem;
     return `${symbol} - ${name}`;
   };
@@ -115,6 +123,7 @@ function Searchbar() {
         inputValue={query}
         onChange={handleSelect}
         onInputChange={(_, value: string) => setQuery(value)}
+        onKeyDown={({ target }) => setQuery((target as HTMLInputElement).value)}
         getOptionLabel={renderOptionText}
         loading={loading}
         renderInput={(params) => (

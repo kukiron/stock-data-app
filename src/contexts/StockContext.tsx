@@ -1,16 +1,24 @@
-import { createContext, Dispatch, useReducer } from 'react';
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useReducer,
+  useState,
+} from 'react';
 
 import NewsFeed from 'components/News';
 import CompanyOverview from 'components/Overview';
 import Searchbar from 'components/Searchbar';
 import StockPrice from 'components/StockPrice';
-import { ApiLimitCard } from 'components/common';
+import { AlertCard } from 'components/common';
 
 import { appStateReducer } from 'data/reducers';
 import type { Action, AppState } from 'data/types';
 
 type ContextState = {
+  demo: boolean; // indicates if the app is using demo endpoints
   appState: AppState;
+  setDemo: Dispatch<SetStateAction<boolean>>;
   updateAppState: Dispatch<Action>;
 };
 
@@ -22,6 +30,7 @@ const initialAppState = {
 export const StockContext = createContext({} as ContextState);
 
 export default function CompanyStock() {
+  const [demo, setDemo] = useState(false);
   const [appState, updateAppState] = useReducer(
     appStateReducer,
     initialAppState
@@ -30,8 +39,9 @@ export default function CompanyStock() {
 
   const renderAppContent = () => {
     if (errorMessage && !activeData) {
-      return <ApiLimitCard />;
+      return <AlertCard />;
     }
+
     return (
       <>
         <StockPrice />
@@ -42,7 +52,7 @@ export default function CompanyStock() {
   };
 
   return (
-    <StockContext.Provider value={{ appState, updateAppState }}>
+    <StockContext.Provider value={{ demo, appState, setDemo, updateAppState }}>
       <Searchbar />
       {renderAppContent()}
     </StockContext.Provider>

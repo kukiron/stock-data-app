@@ -59,6 +59,7 @@ const Separator = styled.div`
 
 function News() {
   const {
+    demo,
     appState: { activeData },
   } = useContext(StockContext);
 
@@ -67,18 +68,17 @@ function News() {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    if (activeData) {
-      fetchLatestNews(activeData.symbol).then(
-        ({ success, message, result }) => {
-          if (!success || !result) {
-            setError(message);
-          }
-          setNewsFeed(result || []);
-          setLoading(false);
+    const input = !demo ? activeData?.symbol : undefined;
+    if (demo || activeData) {
+      fetchLatestNews(input).then(({ success, message, result }) => {
+        if (!success || !result) {
+          setError(message);
         }
-      );
+        setNewsFeed(result || []);
+        setLoading(false);
+      });
     }
-  }, [activeData]);
+  }, [demo, activeData]);
 
   const renderContent = () => {
     // render skeleton loader

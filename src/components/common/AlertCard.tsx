@@ -1,10 +1,5 @@
 import { useContext } from 'react';
-import {
-  Button,
-  CardContent,
-  Divider as MuiDivider,
-  Typography,
-} from '@mui/material';
+import { Button, CardContent, Typography } from '@mui/material';
 import UnavailableIcon from '@mui/icons-material/DoNotDisturbOn';
 import styled from 'styled-components';
 
@@ -14,7 +9,8 @@ import Card from './Card';
 
 const BlockQuote = styled.blockquote<{ $failed?: boolean }>`
   padding-left: 1rem;
-  margin: 0.75em 0 0;
+  margin: 0.75rem;
+  margin-bottom: 0;
   border-left: 4px solid ${blue};
   border-radius: 0 4px 4px 0;
   background: ${gray20};
@@ -49,11 +45,8 @@ function AlertCard() {
       <CardContent>{renderErrorMessage()}</CardContent>
       {isApiLimit && (
         <>
-          <MuiDivider variant="middle" />
-
           <CardContent>
             View the app with demo endpoints instead, provided by Alpha Vantage.
-            Note that these demo endpoints are for different companies.
           </CardContent>
 
           <Button

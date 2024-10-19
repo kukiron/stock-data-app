@@ -20,7 +20,7 @@ If you have your own API key from Alpha Vantage you can set it up in `.env.devel
 
 _**Note that an API key has a limit of 25 calls a day.**_
 
-If you're facing API limit issue and receiving a message as soon as the app loads, try running the app with demo endpoints provided by Alpha Vantage. The demo endpoints are not configurable. So, the data presented will NOT be for the same compnies.
+If you're facing API limit issue and receiving a message when the app loads or is updated, try running the app with demo endpoints provided by Alpha Vantage.
 
 ## Tools Used
 

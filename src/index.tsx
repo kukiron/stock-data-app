@@ -8,7 +8,7 @@ import './index.css';
 
 const theme = createTheme({
   typography: {
-    fontFamily: ['Poppins', 'Roboto', '"Helvetica Neue"'].join(','),
+    fontFamily: ['Inter', 'Roboto', '"Helvetica Neue"'].join(','),
   },
 });
 

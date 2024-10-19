@@ -6,23 +6,48 @@ import {
   Typography,
 } from '@mui/material';
 import UnavailableIcon from '@mui/icons-material/DoNotDisturbOn';
+import styled from 'styled-components';
 
+import { blue, gray20 } from 'lib/colors';
 import { StockContext } from 'contexts/StockContext';
 import Card from './Card';
 
-// CArd containing info about API limit
+const BlockQuote = styled.blockquote<{ $failed?: boolean }>`
+  padding-left: 1rem;
+  margin: 0.75em 0 0;
+  border-left: 4px solid ${blue};
+  border-radius: 0 4px 4px 0;
+  background: ${gray20};
+  padding: 1rem;
+  font-style: italic;
+  color: ${({ $failed }) => ($failed ? 'red' : 'inherit')};
+`;
+
+// Card containing info about API limit
 function AlertCard() {
   const {
     appState: { errorMessage },
     setDemo,
   } = useContext(StockContext);
 
-  const failed = errorMessage.includes('Failed to fetch');
-  const textColor = failed ? 'error' : 'text.primary';
+  const isApiLimit = errorMessage.includes('API');
 
-  const renderDemoOptions = () => {
-    if (!failed) {
-      return (
+  const renderErrorMessage = () => {
+    if (isApiLimit) {
+      return <BlockQuote $failed={!isApiLimit}>{errorMessage}</BlockQuote>;
+    }
+
+    return (
+      <Typography color="error" variant="body2">
+        {errorMessage}
+      </Typography>
+    );
+  };
+
+  return (
+    <Card title="Stock Data Unavailable" Icon={UnavailableIcon}>
+      <CardContent>{renderErrorMessage()}</CardContent>
+      {isApiLimit && (
         <>
           <MuiDivider variant="middle" />
 
@@ -40,19 +65,7 @@ function AlertCard() {
             Use Demo Endpoints
           </Button>
         </>
-      );
-    }
-  };
-
-  return (
-    <Card title="Stock Data Unavailable" Icon={UnavailableIcon}>
-      <CardContent>
-        <Typography variant="body1" color={textColor}>
-          {errorMessage}
-        </Typography>
-      </CardContent>
-
-      {renderDemoOptions()}
+      )}
     </Card>
   );
 }

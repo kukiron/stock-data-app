@@ -4,8 +4,9 @@ import ChartIcon from '@mui/icons-material/ShowChart';
 import styled from 'styled-components';
 
 import { fetchDailyStockData } from 'data/api';
-import type { DailyStockResult } from 'data/types';
+import { formatDailyStockResults } from 'lib/common';
 import { formatChartData } from 'lib/chart';
+import type { FormattedDailyStockResult } from 'data/types';
 
 import { StockContext } from 'contexts/StockContext';
 import AreaChart from './AreaChart';
@@ -27,7 +28,8 @@ function StockPrice() {
     appState: { activeData },
   } = useContext(StockContext);
 
-  const [dailyStock, setDailyStock] = useState<DailyStockResult | null>(null);
+  const [dailyStock, setDailyStock] =
+    useState<FormattedDailyStockResult | null>(null);
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -43,7 +45,7 @@ function StockPrice() {
         if (!success || !result) {
           setError(message);
         }
-        setDailyStock(result || null);
+        setDailyStock(formatDailyStockResults(result));
         setLoading(false);
       });
     }

@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { fetchLatestNews } from 'data/api';
 import type { NewsFeed } from 'data/types';
 import { getPublishedTime } from 'lib/date';
+import { formatNewsResponse } from 'lib/common';
 import { gray20, gray50, gray70 } from 'lib/colors';
 
 import { StockContext } from 'contexts/StockContext';
@@ -74,7 +75,7 @@ function News() {
         if (!success || !result) {
           setError(message);
         }
-        setNewsFeed(result || []);
+        setNewsFeed(formatNewsResponse(result));
         setLoading(false);
       });
     }

@@ -13,6 +13,7 @@ import { styled as muiStyled } from '@mui/material/styles';
 import styled from 'styled-components';
 
 import { searchStockData } from 'data/api';
+import { formatSearchResults } from 'lib/common';
 import { ActionTypes, DEFAULT_QUERY } from 'lib/constants';
 import useDebounce from 'hooks/useDebounce';
 import type { SearchedItem } from 'data/types';
@@ -78,7 +79,7 @@ function Searchbar() {
         return;
       }
 
-      const { bestMatches } = result;
+      const { bestMatches } = formatSearchResults(result);
       // set activeData, if NOT avaialbe, instead of dropdown options
       if (!activeData) {
         updateAppState({

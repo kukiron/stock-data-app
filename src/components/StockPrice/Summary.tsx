@@ -51,7 +51,7 @@ function Summary({ price, metaData }: Props) {
   return (
     <Wrapper>
       <Typography variant="h4" color="text.primary">
-        {price} {currency || ''}
+        {price.toFixed(2)} {currency || ''}
       </Typography>
 
       <FlexWrapper>

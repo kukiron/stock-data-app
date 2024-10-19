@@ -1,4 +1,4 @@
-import { BASE_URL } from 'lib/constants';
+import { BASE_URL, QUERY_SYMBOLS } from 'lib/constants';
 import {
   formatDailyStockResults,
   formatNewsResponse,
@@ -19,7 +19,8 @@ const FETCH_OPTIONS = {
     'Content-Type': 'application/json',
   },
 };
-const API_KEY = process.env.REACT_APP_API_KEY || 'demo';
+const getApiKey = (isDemo: boolean) =>
+  isDemo ? 'demo' : process.env.REACT_APP_API_KEY!;
 
 // response is failing with `Information` about API limit or other errors
 const handleFailedResponse = (response?: { Information: string }) => {
@@ -29,13 +30,12 @@ const handleFailedResponse = (response?: { Information: string }) => {
 };
 
 export const searchStockData = async (
-  keywords: string
+  keywords?: string
 ): Promise<ApiResponse<SearchResult>> => {
   const queryParams = new URLSearchParams({
     function: 'SYMBOL_SEARCH',
-    // keywords: 'BA',
-    keywords,
-    apikey: API_KEY,
+    keywords: keywords || QUERY_SYMBOLS.BA,
+    apikey: getApiKey(Boolean(keywords)),
   });
   const url = `${BASE_URL}?${queryParams.toString()}`;
 
@@ -59,13 +59,12 @@ export const searchStockData = async (
 };
 
 export const fetchCompanyOverview = async (
-  symbol: string
+  symbol?: string
 ): Promise<ApiResponse<CompanyOverview>> => {
   const queryParams = new URLSearchParams({
     function: 'OVERVIEW',
-    // symbol: 'IBM',
-    symbol,
-    apikey: API_KEY,
+    symbol: symbol || QUERY_SYMBOLS.IBM,
+    apikey: getApiKey(Boolean(symbol)),
   });
   const url = `${BASE_URL}?${queryParams.toString()}`;
 
@@ -89,13 +88,12 @@ export const fetchCompanyOverview = async (
 };
 
 export const fetchLatestNews = async (
-  tickers: string
+  tickers?: string
 ): Promise<ApiResponse<NewsFeed[]>> => {
   const queryParams = new URLSearchParams({
     function: 'NEWS_SENTIMENT',
-    // tickers: 'AAPL',
-    tickers,
-    apikey: API_KEY,
+    tickers: tickers || QUERY_SYMBOLS.AAPL,
+    apikey: getApiKey(Boolean(tickers)),
   });
   const url = `${BASE_URL}?${queryParams.toString()}`;
 
@@ -119,13 +117,12 @@ export const fetchLatestNews = async (
 };
 
 export const fetchDailyStockData = async (
-  symbol: string
+  symbol?: string
 ): Promise<ApiResponse<DailyStockResult>> => {
   const queryParams = new URLSearchParams({
     function: 'TIME_SERIES_DAILY',
-    // symbol: 'IBM',
-    symbol,
-    apikey: API_KEY,
+    symbol: symbol || QUERY_SYMBOLS.IBM,
+    apikey: getApiKey(Boolean(symbol)),
   });
   const url = `${BASE_URL}?${queryParams.toString()}`;
 

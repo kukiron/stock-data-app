@@ -5,6 +5,13 @@ export type ApiResponse<T> = BaseResponse & {
   result?: T;
 };
 
+export type Params = {
+  demo: boolean;
+  symbol?: string;
+  ticker?: string;
+  keyword?: string;
+};
+
 /* --- Reducer types --- */
 
 export type Action = { type: string; payload?: any };

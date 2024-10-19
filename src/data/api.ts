@@ -1,15 +1,11 @@
 import { BASE_URL, QUERY_SYMBOLS } from 'lib/constants';
-import {
-  formatDailyStockResults,
-  formatNewsResponse,
-  formatSearchedResults,
-} from 'lib/common';
 
 import {
   ApiResponse,
   CompanyOverview,
   DailyStockResult,
-  NewsFeed,
+  FailedResponse,
+  NewsResponse,
   SearchResult,
 } from './types';
 
@@ -20,11 +16,11 @@ const FETCH_OPTIONS = {
   },
 };
 const getApiKey = (isDemo: boolean) =>
-  isDemo ? 'demo' : process.env.REACT_APP_API_KEY!;
+  isDemo ? 'demo' : process.env.REACT_APP_API_KEY || 'demo';
 
 // response is failing with `Information` about API limit or other errors
-const handleFailedResponse = (response?: { Information: string }) => {
-  if (response?.Information) {
+const handleFailedResponse = (response?: FailedResponse) => {
+  if (response?.Information || response?.['Error Message']) {
     throw new Error(response?.Information);
   }
 };
@@ -47,7 +43,7 @@ export const searchStockData = async (
     return {
       success: true,
       message: 'Search results fetched successfully.',
-      result: formatSearchedResults(result),
+      result,
     };
   } catch (error) {
     console.log('Error fetching search results.', error);
@@ -89,7 +85,7 @@ export const fetchCompanyOverview = async (
 
 export const fetchLatestNews = async (
   tickers?: string
-): Promise<ApiResponse<NewsFeed[]>> => {
+): Promise<ApiResponse<NewsResponse>> => {
   const queryParams = new URLSearchParams({
     function: 'NEWS_SENTIMENT',
     tickers: tickers || QUERY_SYMBOLS.AAPL,
@@ -105,7 +101,7 @@ export const fetchLatestNews = async (
     return {
       success: true,
       message: 'Latest news fetched successfully.',
-      result: formatNewsResponse(result),
+      result,
     };
   } catch (error) {
     console.log('Error fetching latest news.', error);
@@ -134,7 +130,7 @@ export const fetchDailyStockData = async (
     return {
       success: true,
       message: 'Daily stock data fetched successfully.',
-      result: formatDailyStockResults(result),
+      result,
     };
   } catch (error) {
     console.log('Error fetching daily stock data.', error);

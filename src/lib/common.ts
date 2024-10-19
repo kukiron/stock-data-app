@@ -3,14 +3,16 @@ import slice from 'lodash/slice';
 import sortBy from 'lodash/sortBy';
 
 import type {
+  DailyStockResult,
+  FormattedDailyStockResult,
+  FormattedSearchResult,
   NewsResponse,
-  UnformattedDailyStockResult,
-  UnformattedSearchedResult,
+  SearchResult,
 } from 'data/types';
 
 // get the first 5 news feed based on sentiment score
-export const formatNewsResponse = (result: NewsResponse) =>
-  slice(sortBy(result.feed, 'overall_sentiment_score'), 0, 6);
+export const formatNewsResponse = (result: NewsResponse | undefined) =>
+  slice(sortBy(result?.feed || [], 'overall_sentiment_score'), 0, 6);
 
 // format company overview table title
 export const formatInfoTitle = (title: string) =>
@@ -44,14 +46,17 @@ const formatObject = (item: { [key: string]: any }) =>
     return { ...acc, [formattedKey]: item[key] };
   }, {} as any);
 
-export const formatSearchedResults = (results: UnformattedSearchedResult) => ({
+export const formatSearchResults = (
+  results: SearchResult
+): FormattedSearchResult => ({
   bestMatches: results.bestMatches.map(formatObject),
 });
 
 export const formatDailyStockResults = (
-  results: UnformattedDailyStockResult
-) => {
-  const { 'Meta Data': metaData, 'Time Series (Daily)': timeSeries } = results;
+  results: DailyStockResult | undefined
+): FormattedDailyStockResult => {
+  const { 'Meta Data': metaData = {}, 'Time Series (Daily)': timeSeries = {} } =
+    results || {};
   return {
     'Meta Data': formatObject(metaData),
     'Time Series': keys(timeSeries).reduce(

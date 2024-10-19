@@ -5,6 +5,11 @@ export type ApiResponse<T> = BaseResponse & {
   result?: T;
 };
 
+export type FailedResponse = {
+  Information?: string;
+  'Error Message'?: string;
+};
+
 /* --- Reducer types --- */
 
 export type Action = { type: string; payload?: any };
@@ -83,11 +88,11 @@ type Record = {
   [key: string]: string;
 };
 
-export type UnformattedSearchedResult = {
+export type SearchResult = {
   bestMatches: Record[];
 };
 
-export type SearchResult = {
+export type FormattedSearchResult = {
   bestMatches: SearchedItem[];
 };
 
@@ -107,14 +112,14 @@ export type DaiyStockMetaData = {
   'Time Zone': string;
 };
 
-export type UnformattedDailyStockResult = {
+export type DailyStockResult = {
   'Meta Data': Record;
   'Time Series (Daily)': {
     [key: string]: Record;
   };
 };
 
-export type DailyStockResult = {
+export type FormattedDailyStockResult = {
   'Meta Data': DaiyStockMetaData;
   'Time Series': {
     [key: string]: DailyStockInfo;

@@ -1,10 +1,13 @@
 import keys from 'lodash/keys';
 import sortBy from 'lodash/sortBy';
 
-import type { DailyStockChartItem, DailyStockResult } from 'data/types';
+import type {
+  DailyStockChartItem,
+  FormattedDailyStockResult,
+} from 'data/types';
 import { formatDate } from './date';
 
-export const formatChartData = (data: DailyStockResult) => {
+export const formatChartData = (data: FormattedDailyStockResult) => {
   const { 'Time Series': timeSeries } = data;
   return sortBy(
     keys(timeSeries).reduce<DailyStockChartItem[]>((acc, date) => {

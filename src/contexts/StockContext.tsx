@@ -54,7 +54,7 @@ export default function CompanyStock() {
   return (
     <StockContext.Provider value={{ demo, appState, setDemo, updateAppState }}>
       {demo && <InfoBadge />}
-      <Searchbar />
+      {!demo || !activeData ? <Searchbar /> : null}
       {renderAppContent()}
     </StockContext.Provider>
   );

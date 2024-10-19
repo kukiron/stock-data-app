@@ -26,16 +26,9 @@ const listStyles = {
   lineHeight: '1.2rem',
 };
 
-const AutocompleteWrapper = styled.div<{ $disabled?: boolean }>`
+const AutocompleteWrapper = styled.div`
   background-color: white;
   margin-bottom: 2rem;
-  input {
-    ${({ $disabled }) =>
-      $disabled &&
-      `
-        cursor: not-allowed !important;
-      `}
-  }
 `;
 
 const StyledSearchIcon = styled(SearchIcon)`
@@ -133,7 +126,7 @@ function Searchbar() {
   };
 
   return (
-    <AutocompleteWrapper $disabled={demo}>
+    <AutocompleteWrapper>
       <Autocomplete
         freeSolo
         // size="small"

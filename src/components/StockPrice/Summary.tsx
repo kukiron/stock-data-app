@@ -50,8 +50,21 @@ function Summary({ price, metaData }: Props) {
 
   return (
     <Wrapper>
-      <Typography variant="h4" color="text.primary">
-        {price.toFixed(2)} {currency || ''}
+      <Typography
+        variant="h4"
+        color="text.primary"
+        sx={{ display: 'flex', alignItems: 'baseline' }}
+      >
+        {price.toFixed(2)}
+        {currency && (
+          <Typography
+            variant="subtitle1"
+            color="text.secondary"
+            sx={{ ml: 0.5 }}
+          >
+            {currency}
+          </Typography>
+        )}
       </Typography>
 
       <FlexWrapper>

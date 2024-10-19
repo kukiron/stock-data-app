@@ -2,6 +2,7 @@ import find from 'lodash/find';
 import {
   KeyboardEvent,
   SyntheticEvent,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -93,24 +94,24 @@ function Searchbar() {
     1000
   );
 
-  const handleSelect = (
-    _: SyntheticEvent,
-    value: SearchedItem | string | null
-  ) => {
-    const selectedItem = value && typeof value !== 'string' ? value : null;
-    if (selectedItem) {
-      updateAppState({
-        type: ActionTypes.UPDATE_ACTIVE_DATA,
-        payload: selectedItem,
-      });
-    }
-  };
+  const handleSelect = useCallback(
+    (_: SyntheticEvent, value: SearchedItem | string | null) => {
+      const selectedItem = value && typeof value !== 'string' ? value : null;
+      if (selectedItem) {
+        updateAppState({
+          type: ActionTypes.UPDATE_ACTIVE_DATA,
+          payload: selectedItem,
+        });
+      }
+    },
+    [updateAppState]
+  );
 
-  const handleKeyDown = (event: KeyboardEvent) => {
+  const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (event.key === 'Enter') {
       setQuery((event.target as HTMLInputElement).value);
     }
-  };
+  }, []);
 
   useEffect(() => {
     handleFetchStockData(query, demo);

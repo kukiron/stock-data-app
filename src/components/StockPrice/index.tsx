@@ -71,7 +71,7 @@ function StockPrice() {
       <>
         <Summary
           price={chartData[chartData.length - 1].closingPrice}
-          date={dailyStock?.['Meta Data']['Last Refreshed']}
+          metaData={dailyStock!['Meta Data']}
         />
         <AreaChart data={chartData} />
       </>

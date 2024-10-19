@@ -10,7 +10,8 @@ import {
 } from 'recharts';
 
 import { blueGray, bluePurple, lightGreen } from 'lib/colors';
-import { DailyStockChartItem } from 'data/types';
+import type { DailyStockChartItem } from 'data/types';
+
 import CustomTooltip from './Tooltip';
 
 type Props = {

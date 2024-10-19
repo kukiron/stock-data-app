@@ -2,7 +2,7 @@ import keys from 'lodash/keys';
 import slice from 'lodash/slice';
 import sortBy from 'lodash/sortBy';
 
-import {
+import type {
   NewsResponse,
   UnformattedDailyStockResult,
   UnformattedSearchedResult,

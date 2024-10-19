@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { gray70 } from 'lib/colors';
 import { formatDate } from 'lib/date';
+import type { DaiyStockMetaData } from 'data/types';
 import { StockContext } from 'contexts/StockContext';
 
 const FlexWrapper = styled.div`
@@ -31,17 +32,19 @@ const Name = styled.span`
 
 type Props = {
   price: number;
-  date?: string;
+  metaData: DaiyStockMetaData;
 };
 
-function Summary({ price, date }: Props) {
+function Summary({ price, metaData }: Props) {
   const {
+    demo,
     appState: { activeData },
   } = useContext(StockContext);
 
   if (!activeData) return null;
 
-  const { currency, marketClose, timezone, symbol, name } = activeData;
+  const { currency, marketClose, timezone, name } = activeData;
+  const { Symbol: symbol, 'Last Refreshed': date } = metaData;
   const closingInfo =
     `${date ? `${formatDate(date)} at` : ''} ${marketClose} ${timezone}`.trim();
 
@@ -59,7 +62,9 @@ function Summary({ price, date }: Props) {
         <Separator />
 
         <Typography variant="body2" color="text.secondary">
-          <b>{symbol}</b> <Name>({name})</Name>
+          <b>{symbol}</b>
+          {/* hide name for demo endpoints usage */}
+          {!demo ? <Name>({name})</Name> : null}
         </Typography>
       </FlexWrapper>
     </Wrapper>

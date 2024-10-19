@@ -1,7 +1,7 @@
 import keys from 'lodash/keys';
 import sortBy from 'lodash/sortBy';
 
-import { DailyStockChartItem, DailyStockResult } from 'data/types';
+import type { DailyStockChartItem, DailyStockResult } from 'data/types';
 import { formatDate } from './date';
 
 export const formatChartData = (data: DailyStockResult) => {

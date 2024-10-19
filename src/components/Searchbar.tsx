@@ -6,9 +6,9 @@ import { styled as muiStyled } from '@mui/material/styles';
 import styled from 'styled-components';
 
 import { searchStockData } from 'data/api';
-import { SearchedItem } from 'data/types';
 import { ActionTypes, DEFAULT_QUERY } from 'lib/constants';
 import useDebounce from 'hooks/useDebounce';
+import type { SearchedItem } from 'data/types';
 
 import { StockContext } from 'contexts/StockContext';
 import { gray50 } from 'lib/colors';

@@ -1,5 +1,11 @@
 import find from 'lodash/find';
-import { SyntheticEvent, useContext, useEffect, useState } from 'react';
+import {
+  KeyboardEvent,
+  SyntheticEvent,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { Autocomplete, TextField, Popper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled as muiStyled } from '@mui/material/styles';
@@ -20,9 +26,16 @@ const listStyles = {
   lineHeight: '1.2rem',
 };
 
-const AutocompleteWrapper = styled.div`
+const AutocompleteWrapper = styled.div<{ $disabled?: boolean }>`
   background-color: white;
   margin-bottom: 2rem;
+  input {
+    ${({ $disabled }) =>
+      $disabled &&
+      `
+        cursor: not-allowed !important;
+      `}
+  }
 `;
 
 const StyledSearchIcon = styled(SearchIcon)`
@@ -51,8 +64,8 @@ function Searchbar() {
   const [loading, setLoading] = useState(false);
 
   const handleFetchStockData = useDebounce(
-    async (text: string, isDemo: boolean) => {
-      if (!text.length) {
+    async (text: string, isDemo?: boolean) => {
+      if (!demo && !text.length) {
         setSearchedResults([]);
         return;
       }
@@ -100,6 +113,12 @@ function Searchbar() {
     }
   };
 
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      setQuery((event.target as HTMLInputElement).value);
+    }
+  };
+
   useEffect(() => {
     handleFetchStockData(query, demo);
   }, [demo, query]); // eslint-disable-line
@@ -114,16 +133,17 @@ function Searchbar() {
   };
 
   return (
-    <AutocompleteWrapper>
+    <AutocompleteWrapper $disabled={demo}>
       <Autocomplete
         freeSolo
         // size="small"
+        disabled={demo}
         options={searchedResults}
         value={activeData || null} // fallback to `null` for no option
         inputValue={query}
         onChange={handleSelect}
         onInputChange={(_, value: string) => setQuery(value)}
-        onKeyDown={({ target }) => setQuery((target as HTMLInputElement).value)}
+        onKeyDown={handleKeyDown}
         getOptionLabel={renderOptionText}
         loading={loading}
         renderInput={(params) => (

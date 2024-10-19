@@ -10,7 +10,7 @@ import NewsFeed from 'components/News';
 import CompanyOverview from 'components/Overview';
 import Searchbar from 'components/Searchbar';
 import StockPrice from 'components/StockPrice';
-import { AlertCard } from 'components/common';
+import { AlertCard, InfoBadge } from 'components/common';
 
 import { appStateReducer } from 'data/reducers';
 import type { Action, AppState } from 'data/types';
@@ -53,6 +53,7 @@ export default function CompanyStock() {
 
   return (
     <StockContext.Provider value={{ demo, appState, setDemo, updateAppState }}>
+      {demo && <InfoBadge />}
       <Searchbar />
       {renderAppContent()}
     </StockContext.Provider>

@@ -35,7 +35,7 @@ export const searchStockData = async (
   const queryParams = new URLSearchParams({
     function: 'SYMBOL_SEARCH',
     keywords: keywords || QUERY_SYMBOLS.BA,
-    apikey: getApiKey(Boolean(keywords)),
+    apikey: getApiKey(!keywords),
   });
   const url = `${BASE_URL}?${queryParams.toString()}`;
 
@@ -64,7 +64,7 @@ export const fetchCompanyOverview = async (
   const queryParams = new URLSearchParams({
     function: 'OVERVIEW',
     symbol: symbol || QUERY_SYMBOLS.IBM,
-    apikey: getApiKey(Boolean(symbol)),
+    apikey: getApiKey(!symbol),
   });
   const url = `${BASE_URL}?${queryParams.toString()}`;
 
@@ -93,7 +93,7 @@ export const fetchLatestNews = async (
   const queryParams = new URLSearchParams({
     function: 'NEWS_SENTIMENT',
     tickers: tickers || QUERY_SYMBOLS.AAPL,
-    apikey: getApiKey(Boolean(tickers)),
+    apikey: getApiKey(!tickers),
   });
   const url = `${BASE_URL}?${queryParams.toString()}`;
 
@@ -122,7 +122,7 @@ export const fetchDailyStockData = async (
   const queryParams = new URLSearchParams({
     function: 'TIME_SERIES_DAILY',
     symbol: symbol || QUERY_SYMBOLS.IBM,
-    apikey: getApiKey(Boolean(symbol)),
+    apikey: getApiKey(!symbol),
   });
   const url = `${BASE_URL}?${queryParams.toString()}`;
 

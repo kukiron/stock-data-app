@@ -39,7 +39,7 @@ function CustomTooltip({ active, payload, label }: Props) {
 
   return (
     <Wrapper>
-      <Label>{label} (closing)</Label>
+      <Label>{label}</Label>
       {payload.map(({ value }, i) => (
         <Value key={`custom-tooltip-${i}`}>
           <b>

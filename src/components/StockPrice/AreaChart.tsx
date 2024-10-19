@@ -14,6 +14,12 @@ import type { DailyStockChartItem } from 'data/types';
 
 import CustomTooltip from './Tooltip';
 
+const axisStyle = {
+  fill: blueGray,
+  fontSize: '0.8rem',
+  fontWeight: '500',
+};
+
 type Props = {
   data: DailyStockChartItem[];
 };
@@ -37,22 +43,14 @@ function DailyStockChart({ data }: Props) {
           axisLine={false}
           tickMargin={10}
           padding={{ left: 40 }}
-          style={{
-            fill: blueGray,
-            fontSize: '0.8rem',
-            fontWeight: '500',
-          }}
+          style={axisStyle}
           tickLine={{ stroke: bluePurple }}
         />
         <YAxis
+          mirror
           dataKey="closingPrice"
           axisLine={false}
-          style={{
-            fill: blueGray,
-            fontSize: '0.8rem',
-            fontWeight: '500',
-          }}
-          mirror
+          style={axisStyle}
           scale="linear"
           tick={{ dy: 7 }}
           tickMargin={0}

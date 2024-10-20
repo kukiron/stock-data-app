@@ -1,6 +1,7 @@
 import find from 'lodash/find';
 import {
   KeyboardEvent,
+  memo,
   SyntheticEvent,
   useCallback,
   useContext,
@@ -13,13 +14,13 @@ import { styled as muiStyled } from '@mui/material/styles';
 import styled from 'styled-components';
 
 import { searchStockData } from 'data/api';
+import useDebounce from 'hooks/useDebounce';
+import { gray50 } from 'lib/colors';
 import { formatSearchResults } from 'lib/common';
 import { ActionTypes, DEFAULT_QUERY } from 'lib/constants';
-import useDebounce from 'hooks/useDebounce';
 import type { SearchedItem } from 'data/types';
 
 import { StockContext } from 'contexts/StockContext';
-import { gray50 } from 'lib/colors';
 
 const listStyles = {
   maxHeight: '250px',
@@ -28,9 +29,18 @@ const listStyles = {
   lineHeight: '1.2rem',
 };
 
-const AutocompleteWrapper = styled.div`
+const AutocompleteWrapper = styled.div<{ $disabled: boolean }>`
   background-color: white;
   margin-bottom: 2rem;
+
+  .MuiAutocomplete-loading {
+    font-size: 0.9rem;
+    font-family: Inter, Roboto;
+  }
+
+  input {
+    ${({ $disabled }) => $disabled && 'cursor: not-allowed'};
+  }
 `;
 
 const StyledSearchIcon = styled(SearchIcon)`
@@ -44,7 +54,11 @@ const StyledPopper = muiStyled(Popper)(() => ({
   },
 }));
 
-function Searchbar() {
+type Props = {
+  disabled: boolean;
+};
+
+function Searchbar({ disabled }: Props) {
   const {
     demo,
     appState: { activeData },
@@ -128,11 +142,10 @@ function Searchbar() {
   };
 
   return (
-    <AutocompleteWrapper>
+    <AutocompleteWrapper $disabled={disabled}>
       <Autocomplete
         freeSolo
-        // size="small"
-        disabled={demo}
+        disabled={disabled}
         options={searchedResults}
         value={activeData || null} // fallback to `null` for no option
         inputValue={query}
@@ -164,4 +177,4 @@ function Searchbar() {
   );
 }
 
-export default Searchbar;
+export default memo(Searchbar);

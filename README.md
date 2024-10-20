@@ -16,13 +16,13 @@ This should serve the app on `localhost:3000`.
 
 ### API Key
 
-- If you have your own API key from Alpha Vantage you can set it up in `.env.development`. Or get a new one from [here](https://www.alphavantage.co/support/#api-key). _**Note that an API key has a limit of 25 calls a day.**_
+- If you have your own API key from Alpha Vantage you can set it up in `.env.development`. Or get a new one from [here](https://www.alphavantage.co/support/#api-key). _**Each API key has a limit of 25 calls a day.**_
 
 - If you're facing API limit issue and receiving a message when the app loads or is updated, try running the app with demo endpoints provided by Alpha Vantage.
 
 - Alternatively, you can run the app without providing any API key. This will allow the user to run the app with demo endpoints as well.
 
-This can be achieved by
+_**Note that demo endpoints are NOT configurable. So, they are not all fetching data for the same company.**_
 
 ## Tools Used
 

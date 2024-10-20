@@ -34,7 +34,7 @@ function AlertCard() {
     }
 
     return (
-      <Typography color="error" variant="body2">
+      <Typography color="error" variant="body1">
         {errorMessage}
       </Typography>
     );

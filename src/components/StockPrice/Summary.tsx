@@ -14,7 +14,7 @@ const FlexWrapper = styled.div`
 `;
 
 const Wrapper = styled.div`
-  margin-bottom: 1rem;
+  margin: 0.25rem 0 0 1rem;
   letter-spacing: 0.5px;
 `;
 
@@ -59,6 +59,7 @@ function Summary({ price, metaData }: Props) {
         {currency && (
           <Typography
             variant="subtitle1"
+            component="span"
             color="text.secondary"
             sx={{ ml: 0.5 }}
           >

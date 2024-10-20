@@ -1,4 +1,4 @@
-export const formatDate = (time: string, hideYear?: boolean) => {
+export const formatDate = (time: string) => {
   const year = new Date(time).getFullYear();
   const date = new Date(time).getDate();
   const month = new Date(time).toLocaleString('default', {

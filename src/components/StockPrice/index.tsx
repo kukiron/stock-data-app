@@ -72,7 +72,7 @@ function StockPrice() {
     return (
       <>
         <Summary
-          price={chartData[chartData.length - 1].closingPrice}
+          price={chartData[chartData.length - 1].price}
           metaData={dailyStock!['Meta Data']}
         />
         <AreaChart data={chartData} />
@@ -82,7 +82,7 @@ function StockPrice() {
 
   return (
     <Card title="Stock Price" Icon={ChartIcon}>
-      <CardContent sx={{ p: 3, mb: 1 }}>{renderContent()}</CardContent>
+      <CardContent>{renderContent()}</CardContent>
     </Card>
   );
 }

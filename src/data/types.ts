@@ -128,5 +128,5 @@ export type FormattedDailyStockResult = {
 
 export type DailyStockChartItem = {
   date: string;
-  closingPrice: number;
+  price: number;
 };

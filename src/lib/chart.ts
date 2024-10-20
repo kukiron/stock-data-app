@@ -1,4 +1,6 @@
 import keys from 'lodash/keys';
+import maxBy from 'lodash/maxBy';
+import minBy from 'lodash/minBy';
 import sortBy from 'lodash/sortBy';
 
 import type {
@@ -17,10 +19,25 @@ export const formatChartData = (data: FormattedDailyStockResult) => {
         {
           originalDate: date,
           date: formatDate(date),
-          closingPrice: Number(Number(close).toFixed(2)),
+          price: Number(Number(close).toFixed(2)),
         },
       ];
     }, []),
     'originalDate'
   );
+};
+
+// calculate a range of price for y-axis to display on the chart
+export const getChartPriceRange = (data: DailyStockChartItem[]) => {
+  const max = maxBy(data, 'price')?.price || 0;
+  const min = minBy(data, 'price')?.price || 0;
+
+  return [
+    min > 30
+      ? Math.floor(min / 10) * 10
+      : (min > 10 && Math.floor(min / 5) * 5) || Math.floor(min),
+    max > 30
+      ? Math.ceil(max / 10) * 10
+      : (max > 10 && Math.ceil(max / 5) * 5) || Math.ceil(max),
+  ];
 };

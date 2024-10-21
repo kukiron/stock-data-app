@@ -1,13 +1,5 @@
 import find from 'lodash/find';
-import {
-  KeyboardEvent,
-  memo,
-  SyntheticEvent,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { memo, SyntheticEvent, useContext, useEffect, useState } from 'react';
 import { Autocomplete, TextField, Popper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled as muiStyled } from '@mui/material/styles';
@@ -109,24 +101,18 @@ function Searchbar({ disabled }: Props) {
     1000
   );
 
-  const handleSelect = useCallback(
-    (_: SyntheticEvent, value: SearchedItem | string | null) => {
-      const selectedItem = value && typeof value !== 'string' ? value : null;
-      if (selectedItem) {
-        updateAppState({
-          type: ActionTypes.UPDATE_ACTIVE_DATA,
-          payload: selectedItem,
-        });
-      }
-    },
-    [updateAppState]
-  );
-
-  const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    if (event.key === 'Enter') {
-      setQuery((event.target as HTMLInputElement).value);
+  const handleSelect = (
+    _: SyntheticEvent,
+    value: SearchedItem | string | null
+  ) => {
+    const selectedItem = value && typeof value !== 'string' ? value : null;
+    if (selectedItem) {
+      updateAppState({
+        type: ActionTypes.UPDATE_ACTIVE_DATA,
+        payload: selectedItem,
+      });
     }
-  }, []);
+  };
 
   useEffect(() => {
     handleFetchStockData(query, demo);
@@ -151,7 +137,9 @@ function Searchbar({ disabled }: Props) {
         inputValue={query}
         onChange={handleSelect}
         onInputChange={(_, value: string) => setQuery(value)}
-        onKeyDown={handleKeyDown}
+        onKeyDown={({ key, target }) =>
+          key === 'Enter' && setQuery((target as HTMLInputElement).value)
+        }
         getOptionLabel={renderOptionText}
         loading={loading}
         renderInput={(params) => (

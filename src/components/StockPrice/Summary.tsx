@@ -1,9 +1,10 @@
-import { memo, useContext } from 'react';
+import { useContext } from 'react';
 import { Typography } from '@mui/material';
 import styled from 'styled-components';
 
 import { gray70 } from 'lib/colors';
 import { formatDate } from 'lib/date';
+import { BREAK_POINT_SM } from 'lib/breakpoints';
 import type { DaiyStockMetaData } from 'data/types';
 import { StockContext } from 'contexts/StockContext';
 
@@ -25,7 +26,7 @@ const Separator = styled.div`
 `;
 
 const Name = styled.span`
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: ${BREAK_POINT_SM}) {
     display: none;
   }
 `;
@@ -90,4 +91,4 @@ function Summary({ price, metaData }: Props) {
   );
 }
 
-export default memo(Summary);
+export default Summary;

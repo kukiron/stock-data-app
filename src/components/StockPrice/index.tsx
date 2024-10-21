@@ -1,6 +1,6 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { CardContent, CircularProgress, Typography } from '@mui/material';
-import ChartIcon from '@mui/icons-material/ShowChart';
+import ChartIcon from '@mui/icons-material/TrendingUp';
 import styled from 'styled-components';
 
 import { fetchDailyStockData } from 'data/api';
@@ -75,7 +75,7 @@ function StockPrice() {
           price={chartData[chartData.length - 1].price}
           metaData={dailyStock!['Meta Data']}
         />
-        <AreaChart data={chartData} />
+        <AreaChart data={chartData} currency={activeData?.currency || ''} />
       </>
     );
   };

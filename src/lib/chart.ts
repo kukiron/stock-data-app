@@ -18,7 +18,8 @@ export const formatChartData = (data: FormattedDailyStockResult) => {
         ...acc,
         {
           originalDate: date,
-          date: formatDate(date),
+          date: formatDate(date, true),
+          tooltip: formatDate(date),
           price: Number(Number(close).toFixed(2)),
         },
       ];

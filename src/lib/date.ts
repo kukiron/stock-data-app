@@ -1,10 +1,15 @@
-export const formatDate = (time: string) => {
-  const year = new Date(time).getFullYear();
+export const formatDate = (time: string, compact = false) => {
+  const year = compact
+    ? new Date(time).toLocaleString('en', { year: '2-digit' })
+    : new Date(time).getFullYear();
   const date = new Date(time).getDate();
   const month = new Date(time).toLocaleString('default', {
     month: 'long',
   });
-  return `${month.substring(0, 3)} ${date}, ${year}`;
+
+  return compact
+    ? `${date} ${month.substring(0, 3)} ${year}` // 10 Jan 22 - for chart axis label
+    : `${month} ${date}, ${year}`; // January 10, 2022
 };
 
 // get the published time of a news post in the news feed

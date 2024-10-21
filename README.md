@@ -48,11 +48,11 @@ The following endpoints are used to build the app features.
 
 - `/query?function=NEWS_SENTIMENT&tickers={tickers}&apikey={apiKey}`
 
-  Used to fetch latest news on company in financial market. Top 6 news based on sentiment score is displayed,
+  Used to fetch latest news of the company in financial market. Top 6 news based on sentiment score are displayed,
 
 - `/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={apiKey}`
 
-   Used to display stock price trend in a line chart view with additional metadata.
+   Used to display stock price trend in a area chart view with additional metadata.
 
 ## Deployment
 

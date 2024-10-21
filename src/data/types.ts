@@ -127,6 +127,8 @@ export type FormattedDailyStockResult = {
 };
 
 export type DailyStockChartItem = {
+  originalDate: string;
   date: string;
+  tooltip: string;
   price: number;
 };

@@ -1,8 +1,7 @@
-import { memo, useContext } from 'react';
 import styled from 'styled-components';
 
-import { StockContext } from 'contexts/StockContext';
 import { lightGrey } from 'lib/colors';
+import { DailyStockChartItem } from 'data/types';
 
 const Wrapper = styled.div`
   background: ${lightGrey};
@@ -23,32 +22,28 @@ const Value = styled.div`
 `;
 
 type Props = {
+  active: boolean;
   payload: {
     value: number;
+    payload: DailyStockChartItem;
   }[];
-  label: string;
-  active: boolean;
+  currency: string;
 };
 
-function CustomTooltip({ active, payload, label }: Props) {
-  const {
-    appState: { activeData },
-  } = useContext(StockContext);
+function CustomTooltip({ active, payload, currency }: Props) {
+  if (!active || !payload?.length) return null;
 
-  if (!active) return null;
-
+  const { price, tooltip: date } = payload[0].payload;
   return (
     <Wrapper>
-      <Label>{label}</Label>
-      {payload.map(({ value }, i) => (
-        <Value key={`custom-tooltip-${i}`}>
-          <b>
-            {value} {activeData?.currency || ''}
-          </b>
-        </Value>
-      ))}
+      <Label>{date}</Label>
+      <Value>
+        <b>
+          {price} {currency}
+        </b>
+      </Value>
     </Wrapper>
   );
 }
 
-export default memo(CustomTooltip);
+export default CustomTooltip;

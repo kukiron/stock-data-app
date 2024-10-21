@@ -9,11 +9,11 @@ import {
   Tooltip,
 } from 'recharts';
 
+import { getChartPriceRange } from 'lib/chart';
 import { blueGray, bluePurple, lightGreen } from 'lib/colors';
 import type { DailyStockChartItem } from 'data/types';
 
 import CustomTooltip from './Tooltip';
-import { getChartPriceRange } from 'lib/chart';
 
 const axisStyle = {
   fill: blueGray,
@@ -23,9 +23,10 @@ const axisStyle = {
 
 type Props = {
   data: DailyStockChartItem[];
+  currency: string;
 };
 
-function DailyStockChart({ data }: Props) {
+function DailyStockChart({ data, currency }: Props) {
   return (
     <ResponsiveContainer height={400}>
       <AreaChart data={data} margin={{ top: 25, right: 20, left: -20 }}>
@@ -52,7 +53,11 @@ function DailyStockChart({ data }: Props) {
           domain={getChartPriceRange(data)}
         />
         <CartesianGrid strokeDasharray="1 1" vertical={false} />
-        <Tooltip content={(props: any) => <CustomTooltip {...props} />} />
+        <Tooltip
+          content={(props: any) => (
+            <CustomTooltip {...props} currency={currency} />
+          )}
+        />
         <Area
           type="natural"
           dataKey="price"

@@ -20,6 +20,11 @@ export const formatInfoTitle = (title: string) =>
 
 // format financial values for display
 export const formatFiancialValue = (key: string, value: string) => {
+  // apparently missing values for a field are `None` in their API response!
+  if (value.toLowerCase() === 'none') {
+    return '-';
+  }
+
   switch (key) {
     case 'MarketCapitalization':
     case 'EBITDA':

@@ -68,6 +68,8 @@ function Financials() {
 
   useEffect(() => {
     const input = !demo ? activeData?.symbol : undefined;
+    // fetch data if running the app with demo endpoints
+    // or after a successful search, which will set/change the `activeData`
     if (demo || activeData) {
       fetchCompanyOverview(input).then(({ success, message, result }) => {
         if (!success || !result) {

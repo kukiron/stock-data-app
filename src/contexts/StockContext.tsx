@@ -56,6 +56,7 @@ export default function CompanyStock() {
       {demo && activeData ? (
         <InfoBadge />
       ) : (
+        // disable searchbar if API related error message is received
         <Searchbar disabled={errorMessage.includes('API')} />
       )}
       {renderAppContent()}

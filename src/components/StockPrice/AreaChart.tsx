@@ -10,7 +10,7 @@ import {
 } from 'recharts';
 
 import { getChartPriceRange } from 'lib/chart';
-import { blueGray, bluePurple, lightGreen } from 'lib/colors';
+import { blueGray, bluePurple, darkGreen, lightGreen } from 'lib/colors';
 import type { DailyStockChartItem } from 'data/types';
 
 import CustomTooltip from './Tooltip';
@@ -61,7 +61,7 @@ function DailyStockChart({ data, currency }: Props) {
         <Area
           type="natural"
           dataKey="price"
-          stroke={lightGreen}
+          stroke={darkGreen}
           fillOpacity={1}
           fill="url(#colorPv)"
         />

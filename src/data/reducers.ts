@@ -11,6 +11,6 @@ export const appStateReducer: CommonReducer<AppState> = (state, action) => {
       return { ...state, activeData: payload };
 
     default:
-      break;
+      return state;
   }
 };

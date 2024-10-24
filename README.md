@@ -1,6 +1,6 @@
 # Getting Started
 
-This app presents company stock price real-time data. It was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) using [Alpha Vantage API](https://www.alphavantage.co/documentation/#).
+This app presents company stock price real-time data. It is bootstrapped with [Create React App](https://github.com/facebook/create-react-app) using [Alpha Vantage API](https://www.alphavantage.co/documentation/#).
 
 ## Run the Project
 
@@ -16,7 +16,7 @@ This should serve the app on `localhost:3000`.
 
 ### API Key
 
-- If you have your own API key from Alpha Vantage you can set it up in `.env.development`. Or get a new one from [here](https://www.alphavantage.co/support/#api-key). _**Each API key has a limit of 25 calls a day.**_
+- If you have your own API key from Alpha Vantage you can set it up in `.env.development`. Or get a new one from [here](https://www.alphavantage.co/support/#api-key). **Each API key has a limit of 25 calls a day.**
 
 - If you're facing API limit issue and receiving a message when the app loads or is updated, try running the app with demo endpoints provided by Alpha Vantage.
 
@@ -28,7 +28,7 @@ _**Note that demo endpoints are NOT configurable. So, they are not all fetching 
 
 Tools used for the project -
 
-- TypeScript
+- TypeScript & React (CRA)
 - Material UI React with Material UI Icons
 - Recharts: Charting library for React
 - Styled Components: Writing CSS in JS
@@ -56,6 +56,6 @@ The following endpoints are used to build the app features.
 
 ## Deployment
 
-The app is currently deployed to Netlify - [company-stock-data-app.netlify.app](https://company-stock-data-app.netlify.app/).
+The app is currently deployed to Netlify - [company-stock-data-app.netlify.app](https://company-stock-data-app.netlify.app/)
 
-The production deployment also uses a free API key. So, the app might NOT work as expected if the API limit is already reached.
+The production deployment also uses a free API key. So, follow the workaround mentioned above if the API limit is reached.

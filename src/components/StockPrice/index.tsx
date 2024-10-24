@@ -30,8 +30,8 @@ function StockPrice() {
 
   const [dailyStock, setDailyStock] =
     useState<FormattedDailyStockResult | null>(null);
-  const [error, setError] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const chartData = useMemo(
     () => (dailyStock ? formatChartData(dailyStock) : []),

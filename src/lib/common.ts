@@ -3,12 +3,14 @@ import slice from 'lodash/slice';
 import sortBy from 'lodash/sortBy';
 
 import type {
+  CompanyOverview,
   DailyStockResult,
   FormattedDailyStockResult,
   FormattedSearchResult,
   NewsResponse,
   SearchResult,
 } from 'data/types';
+import { OVERVIEW_FIELDS } from './constants';
 
 // get the first 5 news feed based on sentiment score
 export const formatNewsResponse = (result: NewsResponse | undefined) =>
@@ -43,6 +45,25 @@ export const formatFiancialValue = (key: string, value: string) => {
     default:
       return value;
   }
+};
+
+// split company overview info into financials and company details
+// display in 2 different cards
+export const splitCompanyOverview = (overview: CompanyOverview | undefined) => {
+  const overviewItems = overview ? keys(overview) : [];
+  return overviewItems.reduce<{ financials: string[]; company: string[] }>(
+    (acc, item) => {
+      switch (true) {
+        case OVERVIEW_FIELDS.financials.includes(item):
+          return { ...acc, financials: [...acc.financials, item] };
+        case OVERVIEW_FIELDS.company.includes(item):
+          return { ...acc, company: [...acc.company, item] };
+        default:
+          return acc;
+      }
+    },
+    { financials: [], company: [] }
+  );
 };
 
 // format keys in result object

@@ -1,5 +1,5 @@
 import find from 'lodash/find';
-import { SyntheticEvent, useContext, useState } from 'react';
+import { lazy, Suspense, SyntheticEvent, useContext, useState } from 'react';
 import { Box, CardContent, Tab, Tabs, Typography } from '@mui/material';
 import ChartIcon from '@mui/icons-material/TrendingUp';
 
@@ -8,9 +8,10 @@ import { STOCK_TYPES } from 'lib/constants';
 import type { StockCategory } from 'data/types';
 
 import { StockContext } from 'contexts/StockContext';
-import AreaChart from './AreaChart';
 import Summary from './Summary';
 import { Card, LoaderSpinner } from '../common';
+
+const AreaChart = lazy(() => import('./AreaChart'));
 
 const tabs = STOCK_TYPES.map(({ text }) => text);
 const getInitialState = (category?: StockCategory) =>
@@ -65,12 +66,14 @@ function StockPrice() {
           {loading || !chartData.length ? (
             <LoaderSpinner />
           ) : (
-            <AreaChart
-              data={chartData}
-              category={category}
-              currency={activeData?.currency || ''}
-              updateStockData={updateStockData}
-            />
+            <Suspense fallback={<LoaderSpinner />}>
+              <AreaChart
+                data={chartData}
+                category={category}
+                currency={activeData?.currency || ''}
+                updateStockData={updateStockData}
+              />
+            </Suspense>
           )}
         </Box>
       </>

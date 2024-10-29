@@ -5,8 +5,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import { styled as muiStyled } from '@mui/material/styles';
 import styled from 'styled-components';
 
+import { useDebounce } from 'hooks';
 import { searchStockData } from 'data/api';
-import useDebounce from 'hooks/useDebounce';
 import { gray50 } from 'lib/colors';
 import { formatSearchResults } from 'lib/common';
 import { ActionTypes, DEFAULT_QUERY } from 'lib/constants';

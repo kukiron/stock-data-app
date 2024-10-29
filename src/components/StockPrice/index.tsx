@@ -3,7 +3,7 @@ import { SyntheticEvent, useContext, useState } from 'react';
 import { Box, CardContent, Tab, Tabs, Typography } from '@mui/material';
 import ChartIcon from '@mui/icons-material/TrendingUp';
 
-import useUpdateStockData from 'hooks/useUpdateStockData';
+import { useUpdateStockData } from 'hooks';
 import { STOCK_TYPES } from 'lib/constants';
 import type { StockCategory } from 'data/types';
 

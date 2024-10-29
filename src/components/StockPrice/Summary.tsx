@@ -7,6 +7,7 @@ import { formatDate } from 'lib/date';
 import { BREAK_POINT_SM } from 'lib/breakpoints';
 import type { DaiyStockMetaData } from 'data/types';
 import { StockContext } from 'contexts/StockContext';
+import { SummaryDataSkeleton } from 'components/common';
 
 const FlexWrapper = styled.div`
   display: flex;
@@ -32,17 +33,22 @@ const Name = styled.span`
 `;
 
 type Props = {
-  price: number;
-  metaData: DaiyStockMetaData;
+  loading: boolean;
+  price: number | undefined;
+  metaData: DaiyStockMetaData | undefined;
 };
 
-function Summary({ price, metaData }: Props) {
+function Summary({ loading, price, metaData }: Props) {
   const {
     demo,
     appState: { activeData },
   } = useContext(StockContext);
 
-  if (!activeData) return null;
+  const chartDataAvailable = !loading && activeData && price && metaData;
+
+  if (!chartDataAvailable) {
+    return <SummaryDataSkeleton loading={loading} />;
+  }
 
   const { currency, marketClose, timezone, name } = activeData;
   const { Symbol: symbol, 'Last Refreshed': date } = metaData;

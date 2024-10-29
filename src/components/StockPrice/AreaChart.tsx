@@ -10,8 +10,8 @@ import {
 } from 'recharts';
 
 import { getChartPriceRange } from 'lib/chart';
-import { blueGray, bluePurple, darkGreen, lightGreen } from 'lib/colors';
-import type { DailyStockChartItem } from 'data/types';
+import { blueGray, bluePurple, CHART_COLORS } from 'lib/colors';
+import type { DailyStockChartItem, StockCategory } from 'data/types';
 
 import CustomTooltip from './Tooltip';
 
@@ -21,19 +21,32 @@ const axisStyle = {
   fontWeight: '500',
 };
 
-type Props = {
+type ChartProps = {
   data: DailyStockChartItem[];
   currency: string;
+  category: StockCategory;
+  updateStockData: (type?: StockCategory) => void;
+};
+
+type Props = ChartProps & {
+  // fetchData: (type: string) => void;
 };
 
 function DailyStockChart({ data, currency }: Props) {
+  const firstDatePrice = data[0].price;
+  const lastDatePrice = data[data.length - 1].price;
+  const { light: fill, dark: stroke } =
+    firstDatePrice < lastDatePrice
+      ? CHART_COLORS.bullish
+      : CHART_COLORS.bearish;
+
   return (
     <ResponsiveContainer height={400}>
       <AreaChart data={data} margin={{ top: 25, right: 20, left: -20 }}>
         <defs>
           <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="25%" stopColor={lightGreen} stopOpacity={0.8} />
-            <stop offset="90%" stopColor={lightGreen} stopOpacity={0} />
+            <stop offset="25%" stopColor={fill} stopOpacity={0.8} />
+            <stop offset="90%" stopColor={fill} stopOpacity={0} />
           </linearGradient>
         </defs>
         <XAxis
@@ -61,7 +74,7 @@ function DailyStockChart({ data, currency }: Props) {
         <Area
           type="natural"
           dataKey="price"
-          stroke={darkGreen}
+          stroke={stroke}
           fillOpacity={1}
           fill="url(#colorPv)"
         />

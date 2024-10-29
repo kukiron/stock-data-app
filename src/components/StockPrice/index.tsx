@@ -1,69 +1,38 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
-import { CardContent, CircularProgress, Typography } from '@mui/material';
+import find from 'lodash/find';
+import { SyntheticEvent, useContext, useState } from 'react';
+import { Box, CardContent, Tab, Tabs, Typography } from '@mui/material';
 import ChartIcon from '@mui/icons-material/TrendingUp';
-import styled from 'styled-components';
 
-import { fetchDailyStockData } from 'data/api';
-import { formatDailyStockResults } from 'lib/common';
-import { formatChartData } from 'lib/chart';
-import type { FormattedDailyStockResult } from 'data/types';
+import useUpdateStockData from 'hooks/useUpdateStockData';
+import { STOCK_TYPES } from 'lib/constants';
+import type { StockCategory } from 'data/types';
 
 import { StockContext } from 'contexts/StockContext';
 import AreaChart from './AreaChart';
 import Summary from './Summary';
-import { Card } from '../common';
+import { Card, LoaderSpinner } from '../common';
 
-const LoaderWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-  row-gap: 1.5rem;
-`;
+const tabs = STOCK_TYPES.map(({ text }) => text);
+const getInitialState = (category?: StockCategory) =>
+  find(STOCK_TYPES, ['type', category])?.value || 0;
 
 function StockPrice() {
   const {
-    demo,
     appState: { activeData },
   } = useContext(StockContext);
 
-  const [dailyStock, setDailyStock] =
-    useState<FormattedDailyStockResult | null>(null);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true);
+  const { category, error, loading, chartData, metaData, updateStockData } =
+    useUpdateStockData();
 
-  const chartData = useMemo(
-    () => (dailyStock ? formatChartData(dailyStock) : []),
-    [dailyStock]
-  );
+  const [value, setValue] = useState(getInitialState(category));
 
-  useEffect(() => {
-    const input = !demo ? activeData?.symbol : undefined;
-    // fetch data if running the app with demo endpoints
-    // or after a successful search, which will set/change the `activeData`
-    if (demo || activeData) {
-      fetchDailyStockData(input).then(({ success, message, result }) => {
-        if (!success || !result) {
-          setError(message);
-        }
-        setDailyStock(formatDailyStockResults(result));
-        setLoading(false);
-      });
-    }
-  }, [demo, activeData]);
+  const handleTabChange = (_: SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+    updateStockData(STOCK_TYPES[newValue].type);
+  };
 
   const renderContent = () => {
-    if (loading) {
-      return (
-        <LoaderWrapper>
-          <CircularProgress />
-          <Typography color="text.secondary">Updating stock data...</Typography>
-        </LoaderWrapper>
-      );
-    }
-
-    if (error || !chartData.length) {
+    if (error) {
       return (
         <Typography align="center" variant="subtitle1" color="red">
           {error}
@@ -74,10 +43,36 @@ function StockPrice() {
     return (
       <>
         <Summary
-          price={chartData[chartData.length - 1].price}
-          metaData={dailyStock!['Meta Data']}
+          loading={loading}
+          price={chartData[chartData.length - 1]?.price}
+          metaData={metaData}
         />
-        <AreaChart data={chartData} currency={activeData?.currency || ''} />
+
+        <Box sx={{ width: '100%' }}>
+          <Box sx={{ p: 1 }}>
+            <Tabs variant="scrollable" value={value} onChange={handleTabChange}>
+              {tabs.map((tab) => (
+                <Tab
+                  key={tab}
+                  label={tab}
+                  disabled={loading}
+                  sx={{ fontWeight: 'bold' }}
+                />
+              ))}
+            </Tabs>
+          </Box>
+
+          {loading || !chartData.length ? (
+            <LoaderSpinner />
+          ) : (
+            <AreaChart
+              data={chartData}
+              category={category}
+              currency={activeData?.currency || ''}
+              updateStockData={updateStockData}
+            />
+          )}
+        </Box>
       </>
     );
   };

@@ -4,7 +4,7 @@
   "extends": ["prettier", "react-app", "react-app/jest"],
   "rules": {
     "prettier/prettier": "warn",
-    "no-unused-vars": "warn",
+    // "no-unused-vars": "warn",
     "no-nested-ternary": "error"
   }
 }

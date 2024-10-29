@@ -155,7 +155,7 @@ function Searchbar({ disabled }: Props) {
           />
         )}
         ListboxProps={{
-          id: 'port-dropdown',
+          id: 'company-dropdown',
           style: listStyles,
         }}
         PopperComponent={StyledPopper}

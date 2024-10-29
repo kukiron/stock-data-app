@@ -9,6 +9,7 @@ import type {
   FormattedSearchResult,
   NewsResponse,
   SearchResult,
+  StockCategory,
 } from 'data/types';
 import { OVERVIEW_FIELDS } from './constants';
 
@@ -79,15 +80,25 @@ export const formatSearchResults = (
   bestMatches: results.bestMatches.map(formatObject),
 });
 
+// formats api result
 export const formatDailyStockResults = (
-  results: DailyStockResult | undefined
+  results: DailyStockResult | undefined,
+  type?: StockCategory
 ): FormattedDailyStockResult => {
-  const { 'Meta Data': metaData = {}, 'Time Series (Daily)': timeSeries = {} } =
-    results || {};
+  const timeSeriesKey =
+    (type === 'intraday' && 'Time Series (5min)') ||
+    (type === 'weekly' && 'Weekly Time Series') ||
+    'Time Series (Daily)';
+  const timeSeries = results?.[timeSeriesKey] || {};
+  const { 'Meta Data': metaData = {} } = results || {};
+
   return {
     'Meta Data': formatObject(metaData),
     'Time Series': keys(timeSeries).reduce(
-      (acc, date) => ({ ...acc, [date]: formatObject(timeSeries[date]) }),
+      (acc, date) => ({
+        ...acc,
+        [date]: formatObject(timeSeries[date]),
+      }),
       {}
     ),
   };

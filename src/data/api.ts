@@ -7,6 +7,7 @@ import {
   FailedResponse,
   NewsResponse,
   SearchResult,
+  StockCategory,
 } from './types';
 
 const FETCH_OPTIONS = {
@@ -45,11 +46,11 @@ export const searchStockData = async (
       message: 'Search results fetched successfully.',
       result,
     };
-  } catch (error) {
+  } catch (error: any) {
     console.log('Error fetching search results.', error);
     return {
       success: false,
-      message: (error as any).message || 'Failed to fetch search results.',
+      message: error.message || 'Failed to fetch search results.',
     };
   }
 };
@@ -113,11 +114,16 @@ export const fetchLatestNews = async (
 };
 
 export const fetchDailyStockData = async (
+  type: StockCategory,
   symbol?: string
 ): Promise<ApiResponse<DailyStockResult>> => {
   const queryParams = new URLSearchParams({
-    function: 'TIME_SERIES_DAILY',
+    function: `TIME_SERIES_${type.toUpperCase()}`,
     symbol: symbol || QUERY_SYMBOLS.IBM,
+    // set `interval` only when `type` is `intraday`
+    ...(type === 'intraday' ? { interval: '5min' } : {}),
+    // set `outputsize` only when `type` is `intraday` or `daily`
+    ...(['intraday', 'daily'].includes(type) ? { outputsize: 'full' } : {}),
     apikey: getApiKey(!symbol),
   });
   const url = `${BASE_URL}?${queryParams.toString()}`;

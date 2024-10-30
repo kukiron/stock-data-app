@@ -1,11 +1,9 @@
-import find from 'lodash/find';
 import { lazy, Suspense, SyntheticEvent, useContext, useState } from 'react';
 import { Box, CardContent, Tab, Tabs, Typography } from '@mui/material';
 import ChartIcon from '@mui/icons-material/TrendingUp';
 
 import { useUpdateStockData } from 'hooks';
 import { STOCK_TYPES } from 'lib/constants';
-import type { StockCategory } from 'data/types';
 
 import { StockContext } from 'contexts/StockContext';
 import Summary from './Summary';
@@ -14,18 +12,16 @@ import { Card, LoaderSpinner } from '../common';
 const AreaChart = lazy(() => import('./AreaChart'));
 
 const tabs = STOCK_TYPES.map(({ text }) => text);
-const getInitialState = (category?: StockCategory) =>
-  find(STOCK_TYPES, ['type', category])?.value || 0;
 
 function StockPrice() {
   const {
     appState: { activeData },
   } = useContext(StockContext);
 
+  const [value, setValue] = useState(0);
+
   const { category, error, loading, chartData, metaData, updateStockData } =
     useUpdateStockData();
-
-  const [value, setValue] = useState(getInitialState(category));
 
   const handleTabChange = (_: SyntheticEvent, newValue: number) => {
     setValue(newValue);

@@ -32,7 +32,6 @@ export enum StockCategory {
   weekly = 'weekly',
 }
 export type StockDataType = {
-  value: number; // 0 based index for tabs
   text: StockRange;
   type: StockCategory;
 };

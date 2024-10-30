@@ -41,13 +41,12 @@ function useUpdateStockData() {
 
       setCategory(type);
 
-      if (
-        // Do NOT fetch data if the `type` has been set already
-        !stockData?.[type] &&
-        // fetch data if running the app with demo endpoints
-        // or after a successful search, which will set/change the `activeData`
-        (demo || activeData)
-      ) {
+      // Do NOT fetch data if the `type` has been set already
+      if (stockData?.[type]) return;
+
+      // fetch data if running the app with demo endpoints
+      // or after a successful search, which will set/change the `activeData`
+      if (demo || activeData) {
         setLoading(true);
         fetchDailyStockData(type, symbol).then(
           ({ success, message, result }) => {

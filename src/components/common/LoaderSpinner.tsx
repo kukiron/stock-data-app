@@ -7,14 +7,14 @@ const LoaderWrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin: 3rem;
-  row-gap: 1.5rem;
+  row-gap: 2rem;
 `;
 
 function LoaderSpinner() {
   return (
     <LoaderWrapper>
-      <CircularProgress />
-      <Typography color="text.secondary">Updating stock data...</Typography>
+      <CircularProgress disableShrink />
+      <Typography color="text.secondary">Getting stock data...</Typography>
     </LoaderWrapper>
   );
 }

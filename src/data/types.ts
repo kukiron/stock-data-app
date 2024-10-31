@@ -25,13 +25,14 @@ export type AppState = {
 
 /* --- Data types --- */
 
-export type StockRange = '1D' | '5D' | '1M' | 'YTD' | '1Y' | '5Y';
+export type StockRange = '1D' | '5D' | '1M' | '6M' | 'YTD' | '1Y' | '5Y';
 export enum StockCategory {
   intraday = 'intraday',
   daily = 'daily',
   weekly = 'weekly',
 }
 export type StockDataType = {
+  value: number; // sets the tab value in chart
   text: StockRange;
   type: StockCategory;
 };
@@ -142,7 +143,7 @@ export type FormattedDailyStockResult = {
 
 export type DailyStockChartItem = {
   originalDate: string;
-  date: string;
   tooltip: string;
   price: number;
+  date: string;
 };

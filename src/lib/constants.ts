@@ -30,12 +30,13 @@ export const OVERVIEW_FIELDS = {
 
 // type of stock data displayed in the chart
 export const STOCK_TYPES: StockDataType[] = [
-  { text: '1D', type: StockCategory.intraday },
-  { text: '5D', type: StockCategory.intraday },
-  { text: '1M', type: StockCategory.daily },
-  { text: 'YTD', type: StockCategory.daily },
-  { text: '1Y', type: StockCategory.daily },
-  { text: '5Y', type: StockCategory.weekly },
+  { text: '1D', type: StockCategory.intraday, value: 0 },
+  { text: '5D', type: StockCategory.intraday, value: 1 },
+  { text: '1M', type: StockCategory.daily, value: 2 },
+  { text: '6M', type: StockCategory.daily, value: 3 },
+  { text: 'YTD', type: StockCategory.daily, value: 4 },
+  { text: '1Y', type: StockCategory.daily, value: 5 },
+  { text: '5Y', type: StockCategory.weekly, value: 6 },
 ];
 
 // reducer action types

@@ -21,18 +21,13 @@ const axisStyle = {
   fontWeight: '500',
 };
 
-type ChartProps = {
+type Props = {
   data: DailyStockChartItem[];
   currency: string;
   category: StockCategory;
-  updateStockData: (type?: StockCategory) => void;
 };
 
-type Props = ChartProps & {
-  // fetchData: (type: string) => void;
-};
-
-function DailyStockChart({ data, currency }: Props) {
+function DailyStockChart({ data, currency, category }: Props) {
   const firstDatePrice = data[0].price;
   const lastDatePrice = data[data.length - 1].price;
   const { light: fill, dark: stroke } =
@@ -63,7 +58,7 @@ function DailyStockChart({ data, currency }: Props) {
           scale="linear"
           tickMargin={0}
           tickLine={false}
-          domain={getChartPriceRange(data)}
+          domain={getChartPriceRange(data, category)}
         />
         <CartesianGrid strokeDasharray="1 1" vertical={false} />
         <Tooltip
@@ -72,7 +67,7 @@ function DailyStockChart({ data, currency }: Props) {
           )}
         />
         <Area
-          type="natural"
+          type="monotone"
           dataKey="price"
           stroke={stroke}
           fillOpacity={1}

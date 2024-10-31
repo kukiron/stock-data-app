@@ -35,6 +35,7 @@ export type StockDataType = {
   value: number; // sets the tab value in chart
   text: TimeRange;
   type: StockCategory;
+  description: string;
 };
 // state to save different category of stock data
 export type StoredStockData = {

@@ -12,6 +12,8 @@ import { gray20, gray50, gray70 } from 'lib/colors';
 import { StockContext } from 'contexts/StockContext';
 import { Card, Divider, NewsLoaderSkeleton } from './common';
 
+import PlaceholderImage from 'assets/images/placeholder.png';
+
 const FlexWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -111,7 +113,13 @@ function News() {
               onClick={() => window.open(url, '_blank')}
             >
               <FlexWrapper>
-                <Image src={banner_image} alt={source} />
+                <Image
+                  src={banner_image}
+                  alt={source}
+                  onError={({ currentTarget }) => {
+                    currentTarget.src = PlaceholderImage;
+                  }}
+                />
 
                 <TextWrapper key={time_published}>
                   <FlexWrapper>

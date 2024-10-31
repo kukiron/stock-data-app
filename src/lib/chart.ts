@@ -3,12 +3,11 @@ import { filter, keys, maxBy, minBy, sortBy } from 'lodash';
 import {
   DailyStockChartItem,
   DailyStockInfo,
+  FormattedDailyStockResult,
   StockCategory,
-  StockDataType,
-  StockRange,
-  StoredStockData,
+  TimeRange,
 } from 'data/types';
-import { formatAxisDate, formatTooltipDate } from './date';
+import { formatAxisDate, formatDate } from './date';
 
 const getOffsetDate = (days: number) => {
   const currentDate = new Date();
@@ -22,7 +21,7 @@ const splitDate = (date: string) => date.split(' ')[0];
 
 const prepareTimesList = (
   timeSeries: { [key: string]: DailyStockInfo },
-  range: StockRange
+  range: TimeRange
 ) => {
   const timeKeys = keys(timeSeries).sort((a, b) => b.localeCompare(a));
 
@@ -70,15 +69,10 @@ const prepareTimesList = (
 };
 
 export const formatChartData = (
-  stockData: StoredStockData | null,
-  options: Omit<StockDataType, 'value'>
+  stockData: FormattedDailyStockResult,
+  range: TimeRange
 ) => {
-  const { type: category, text: range } = options;
-  const categoryData = stockData?.[category];
-
-  if (!categoryData) return [];
-
-  const { 'Time Series': timeSeries } = categoryData;
+  const { 'Time Series': timeSeries } = stockData;
   const timeKeys = prepareTimesList(timeSeries, range);
 
   return sortBy(
@@ -90,7 +84,7 @@ export const formatChartData = (
         {
           originalDate: date,
           date: formatAxisDate(date, range),
-          tooltip: formatTooltipDate(date, showLongFormat),
+          tooltip: formatDate(date, showLongFormat),
           price: Number(Number(close).toFixed(2)),
         },
       ];

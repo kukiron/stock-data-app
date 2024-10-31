@@ -25,7 +25,7 @@ export type AppState = {
 
 /* --- Data types --- */
 
-export type StockRange = '1D' | '5D' | '1M' | '6M' | 'YTD' | '1Y' | '5Y';
+export type TimeRange = '1D' | '5D' | '1M' | '6M' | 'YTD' | '1Y' | '5Y';
 export enum StockCategory {
   intraday = 'intraday',
   daily = 'daily',
@@ -33,7 +33,7 @@ export enum StockCategory {
 }
 export type StockDataType = {
   value: number; // sets the tab value in chart
-  text: StockRange;
+  text: TimeRange;
   type: StockCategory;
 };
 // state to save different category of stock data

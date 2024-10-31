@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 import { fetchDailyStockData } from 'data/api';
-import { StockDataType, StoredStockData } from 'data/types';
+import type { StockDataType, StoredStockData } from 'data/types';
 import { formatChartData } from 'lib/chart';
 import { formatDailyStockResults } from 'lib/common';
 import { STOCK_TYPES } from 'lib/constants';
@@ -21,13 +21,14 @@ function useUpdateStockData() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // format stock data for chart
   const { chartData, metaData } = useMemo(() => {
     const { type: category, value: tabIndex } = timeSeries;
     const categoryData = stockData?.[category];
-    const options = { type: category, text: tabs[tabIndex] };
     return {
-      // format stock data for chart
-      chartData: formatChartData(stockData, options),
+      chartData: categoryData
+        ? formatChartData(categoryData, tabs[tabIndex])
+        : [],
       metaData: categoryData?.['Meta Data'],
     };
   }, [stockData, timeSeries]);

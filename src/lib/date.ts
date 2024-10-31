@@ -1,3 +1,7 @@
+import type { StockRange } from 'data/types';
+
+const LOCALES = ['en-US', 'en-GB'];
+
 export const formatDate = (time: string, compact = false) => {
   const year = compact
     ? new Date(time).toLocaleString('en', { year: '2-digit' })
@@ -10,6 +14,64 @@ export const formatDate = (time: string, compact = false) => {
   return compact
     ? `${date} ${month.substring(0, 3)} ${year}` // 10 Jan 22 - for chart axis label
     : `${month} ${date}, ${year}`; // January 10, 2022
+};
+
+export const formatAxisDate = (dateStr: string, range: StockRange) => {
+  const dayOptions = {
+    day: 'numeric',
+    month: 'short',
+  } as Intl.DateTimeFormatOptions;
+  const hourOptions = {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  } as Intl.DateTimeFormatOptions;
+
+  switch (range) {
+    case '1D': {
+      return new Date(dateStr).toLocaleString(LOCALES, hourOptions);
+    }
+    case '5D': {
+      return new Date(dateStr).toLocaleString(LOCALES, {
+        ...dayOptions,
+        ...hourOptions,
+      });
+    }
+
+    case '1M':
+    case '6M': {
+      return new Date(dateStr).toLocaleString(LOCALES, dayOptions);
+    }
+
+    case 'YTD':
+    case '1Y': {
+      return new Date(dateStr).toLocaleString(LOCALES, {
+        month: 'short',
+        day: 'numeric',
+      });
+    }
+
+    case '5Y': {
+      return new Date(dateStr).toLocaleString(LOCALES, {
+        year: 'numeric',
+        month: 'short',
+      });
+    }
+  }
+};
+
+export const formatTooltipDate = (dateStr: string, long: boolean = false) => {
+  if (long) {
+    return new Date(dateStr).toLocaleDateString(LOCALES, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+    });
+  }
+  return formatDate(dateStr);
 };
 
 // get the published time of a news post in the news feed

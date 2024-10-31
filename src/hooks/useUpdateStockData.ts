@@ -1,16 +1,14 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 import { fetchDailyStockData } from 'data/api';
-import {
-  FormattedDailyStockResult,
-  StockCategory,
-  StoredStockData,
-} from 'data/types';
+import { StockDataType, StoredStockData } from 'data/types';
 import { formatChartData } from 'lib/chart';
 import { formatDailyStockResults } from 'lib/common';
+import { STOCK_TYPES } from 'lib/constants';
 import { StockContext } from 'contexts/StockContext';
 
-const initialStockType = StockCategory.intraday;
+const tabs = STOCK_TYPES.map(({ text }) => text);
+const iitialTimeSeries = STOCK_TYPES[0];
 
 function useUpdateStockData() {
   const {
@@ -18,28 +16,29 @@ function useUpdateStockData() {
     appState: { activeData },
   } = useContext(StockContext);
 
-  const [category, setCategory] = useState<StockCategory>(initialStockType);
   const [stockData, setStockData] = useState<StoredStockData | null>(null);
+  const [timeSeries, setTimeSeries] = useState<StockDataType>(iitialTimeSeries);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const { chartData, metaData } = useMemo(() => {
+    const { type: category, value: tabIndex } = timeSeries;
     const categoryData = stockData?.[category];
+    const options = { type: category, text: tabs[tabIndex] };
     return {
-      chartData: categoryData
-        ? // format stock data for chart
-          formatChartData(categoryData as FormattedDailyStockResult)
-        : [],
+      // format stock data for chart
+      chartData: formatChartData(stockData, options),
       metaData: categoryData?.['Meta Data'],
     };
-  }, [stockData, category]);
+  }, [stockData, timeSeries]);
 
   const handleFetchStockData = useCallback(
-    (dataType?: StockCategory) => {
+    (tabIndex?: number) => {
       const symbol = !demo ? activeData?.symbol : undefined;
-      const type = dataType || initialStockType;
+      const newTimeSeries = tabIndex ? STOCK_TYPES[tabIndex] : iitialTimeSeries;
 
-      setCategory(type);
+      setTimeSeries(newTimeSeries);
+      const { type } = newTimeSeries;
 
       // Do NOT fetch data if the `type` has been set already
       if (stockData?.[type]) return;
@@ -71,11 +70,13 @@ function useUpdateStockData() {
   useEffect(() => handleFetchStockData(), []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return {
-    category,
+    timeSeries,
     error: error.trim(),
     loading,
     chartData,
     metaData,
+    tabs,
+    currentTab: timeSeries.value,
     updateStockData: handleFetchStockData,
   };
 }

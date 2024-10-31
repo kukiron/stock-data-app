@@ -16,6 +16,7 @@ const NewsItemWrapper = styled(FlexWrapper)`
 const SummaryContentWrapper = styled(FlexWrapper)`
   padding: 0.5rem;
   align-items: flex-end;
+  column-gap: 0.5rem;
 `;
 
 const Container = styled.div`
@@ -90,15 +91,15 @@ function SummaryDataSkeleton({ loading }: { loading: boolean }) {
   const wave = loading ? 'wave' : false;
   return (
     <>
-      <SummaryContentWrapper style={{ width: '25%' }}>
-        <Skeleton animation={wave} height={30} width="60%" />
-        <Skeleton animation={wave} height={20} width="40%" />
+      <SummaryContentWrapper style={{ width: '20%' }}>
+        <Skeleton animation={wave} height={30} width="70%" />
+        <Skeleton animation={wave} height={20} width="30%" />
       </SummaryContentWrapper>
 
-      <SummaryContentWrapper style={{ width: '45%' }}>
-        <Skeleton animation={wave} height={12} width="30%" />
-        <Skeleton animation={wave} height={12} width="40%" />
-        <Skeleton animation={wave} height={12} width="30%" />
+      <SummaryContentWrapper style={{ width: '40%' }}>
+        <Skeleton animation={wave} height={12} width="35%" />
+        <Skeleton animation={wave} height={12} width="45%" />
+        <Skeleton animation={wave} height={12} width="20%" />
       </SummaryContentWrapper>
     </>
   );

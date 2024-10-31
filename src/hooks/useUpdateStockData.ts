@@ -40,9 +40,18 @@ function useUpdateStockData() {
 
       setTimeSeries(newTimeSeries);
       const { type } = newTimeSeries;
+      const { Symbol: stockDataSymbol } =
+        stockData?.[type]?.['Meta Data'] || {};
+      const preventFetch =
+        // stock data type already available
+        stockData?.[type] &&
+        // company symbol already searched (NOT in demo mode)
+        (!demo ? stockDataSymbol === symbol : true);
 
-      // Do NOT fetch data if the `type` has been set already
-      if (stockData?.[type]) return;
+      // Do NOT fetch data if the `type` has been set already for same company
+      if (preventFetch) {
+        return;
+      }
 
       // fetch data if running the app with demo endpoints
       // or after a successful search, which will set/change the `activeData`
@@ -68,7 +77,10 @@ function useUpdateStockData() {
     [demo, activeData, stockData]
   );
 
-  useEffect(() => handleFetchStockData(), []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    // run this once after the component mounts & demo/activeData is available
+    handleFetchStockData();
+  }, [demo, activeData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return {
     timeSeries,

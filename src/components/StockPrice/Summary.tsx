@@ -3,7 +3,7 @@ import { Typography } from '@mui/material';
 import styled from 'styled-components';
 
 import { gray70 } from 'lib/colors';
-import { formatDate } from 'lib/date';
+import { formatAppDate } from 'lib/date';
 import { BREAK_POINT_SM } from 'lib/breakpoints';
 import type { DaiyStockMetaData } from 'data/types';
 import { StockContext } from 'contexts/StockContext';
@@ -53,7 +53,7 @@ function Summary({ loading, price, metaData }: Props) {
   const { currency, marketClose, timezone, name } = activeData;
   const { Symbol: symbol, 'Last Refreshed': date } = metaData;
   const closingInfo =
-    `${date ? `${formatDate(date)} at` : ''} ${marketClose} ${timezone}`.trim();
+    `${date ? `${formatAppDate(date)} at` : ''} ${marketClose} ${timezone}`.trim();
 
   return (
     <Wrapper>

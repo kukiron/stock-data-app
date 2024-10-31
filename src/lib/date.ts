@@ -1,22 +1,27 @@
-import type { StockRange } from 'data/types';
+import type { TimeRange } from 'data/types';
 
 const LOCALES = ['en-US', 'en-GB'];
 
-export const formatDate = (time: string, compact = false) => {
-  const year = compact
-    ? new Date(time).toLocaleString('en', { year: '2-digit' })
-    : new Date(time).getFullYear();
-  const date = new Date(time).getDate();
-  const month = new Date(time).toLocaleString('default', {
+// common date format util
+export const formatAppDate = (dateStr: string, long: boolean = false) => {
+  if (long) {
+    return new Date(dateStr).toLocaleDateString(LOCALES, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+    });
+  }
+  return new Date(dateStr).toLocaleDateString(LOCALES, {
+    year: 'numeric',
     month: 'long',
+    day: 'numeric',
   });
-
-  return compact
-    ? `${date} ${month.substring(0, 3)} ${year}` // 10 Jan 22 - for chart axis label
-    : `${month} ${date}, ${year}`; // January 10, 2022
 };
 
-export const formatAxisDate = (dateStr: string, range: StockRange) => {
+export const formatAxisDate = (dateStr: string, range: TimeRange) => {
   const dayOptions = {
     day: 'numeric',
     month: 'short',
@@ -60,20 +65,6 @@ export const formatAxisDate = (dateStr: string, range: StockRange) => {
   }
 };
 
-export const formatTooltipDate = (dateStr: string, long: boolean = false) => {
-  if (long) {
-    return new Date(dateStr).toLocaleDateString(LOCALES, {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true,
-    });
-  }
-  return formatDate(dateStr);
-};
-
 // get the published time of a news post in the news feed
 // time format in API response: YYYYMMDDTHHMMSS
 export const getPublishedTime = (time: string) => {
@@ -102,5 +93,5 @@ export const getPublishedTime = (time: string) => {
     return 'Published Yesterday';
   }
 
-  return `Published on ${formatDate(formattedPublishedDate)}`;
+  return `Published on ${formatAppDate(formattedPublishedDate)}`;
 };

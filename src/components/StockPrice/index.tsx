@@ -1,9 +1,8 @@
-import { lazy, Suspense, SyntheticEvent, useContext, useState } from 'react';
+import { lazy, Suspense, useContext } from 'react';
 import { Box, CardContent, Tab, Tabs, Typography } from '@mui/material';
 import ChartIcon from '@mui/icons-material/TrendingUp';
 
 import { useUpdateStockData } from 'hooks';
-import { STOCK_TYPES } from 'lib/constants';
 
 import { StockContext } from 'contexts/StockContext';
 import Summary from './Summary';
@@ -11,22 +10,21 @@ import { Card, LoaderSpinner } from '../common';
 
 const AreaChart = lazy(() => import('./AreaChart'));
 
-const tabs = STOCK_TYPES.map(({ text }) => text);
-
 function StockPrice() {
   const {
     appState: { activeData },
   } = useContext(StockContext);
 
-  const [value, setValue] = useState(0);
-
-  const { category, error, loading, chartData, metaData, updateStockData } =
-    useUpdateStockData();
-
-  const handleTabChange = (_: SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-    updateStockData(STOCK_TYPES[newValue].type);
-  };
+  const {
+    timeSeries: { type: category },
+    error,
+    loading,
+    chartData,
+    metaData,
+    tabs,
+    currentTab: tabIndex,
+    updateStockData,
+  } = useUpdateStockData();
 
   const renderContent = () => {
     if (error) {
@@ -47,7 +45,11 @@ function StockPrice() {
 
         <Box sx={{ width: '100%' }}>
           <Box sx={{ p: 1 }}>
-            <Tabs variant="scrollable" value={value} onChange={handleTabChange}>
+            <Tabs
+              variant="scrollable"
+              value={tabIndex}
+              onChange={(_, newValue) => updateStockData(newValue)}
+            >
               {tabs.map((tab) => (
                 <Tab
                   key={tab}
@@ -67,7 +69,6 @@ function StockPrice() {
                 data={chartData}
                 category={category}
                 currency={activeData?.currency || ''}
-                updateStockData={updateStockData}
               />
             </Suspense>
           )}

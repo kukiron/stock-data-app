@@ -7,7 +7,7 @@ import {
   StockCategory,
   TimeRange,
 } from 'data/types';
-import { formatAxisDate, formatDate } from './date';
+import { formatAxisDate, formatAppDate } from './date';
 
 const getOffsetDate = (days: number) => {
   const currentDate = new Date();
@@ -84,7 +84,7 @@ export const formatChartData = (
         {
           originalDate: date,
           date: formatAxisDate(date, range),
-          tooltip: formatDate(date, showLongFormat),
+          tooltip: formatAppDate(date, showLongFormat),
           price: Number(Number(close).toFixed(2)),
         },
       ];

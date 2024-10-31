@@ -1,8 +1,12 @@
-# Getting Started
+# Company Stock Data App
 
-This app presents company stock price real-time data. It is bootstrapped with [Create React App](https://github.com/facebook/create-react-app) using [Alpha Vantage API](https://www.alphavantage.co/documentation/#).
+This app presents company stock price real-time data.
 
-## Run the Project
+Initial aim was to build a clone of [Google Finance](https://www.google.com/finance/). But ended up as a "discount version", mainly because of the API call limit.
+
+## Getting Started
+
+The project is bootstrapped with [Create React App](https://github.com/facebook/create-react-app) using [Alpha Vantage API](https://www.alphavantage.co/documentation/#).
 
 To run the project locally -
 

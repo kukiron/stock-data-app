@@ -27,7 +27,7 @@ const AutocompleteWrapper = styled.div<{ $disabled: boolean }>`
 
   .MuiAutocomplete-loading {
     font-size: 0.9rem;
-    font-family: Inter, Roboto;
+    font-family: Quicksand, Roboto;
   }
 
   input {

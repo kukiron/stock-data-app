@@ -25,6 +25,23 @@ export type AppState = {
 
 /* --- Data types --- */
 
+export type TimeRange = '1D' | '5D' | '1M' | '6M' | 'YTD' | '1Y' | '5Y';
+export enum StockCategory {
+  intraday = 'intraday',
+  daily = 'daily',
+  weekly = 'weekly',
+}
+export type StockDataType = {
+  value: number; // sets the tab value in chart
+  text: TimeRange;
+  type: StockCategory;
+  description: string;
+};
+// state to save different category of stock data
+export type StoredStockData = {
+  [key in StockCategory]?: FormattedDailyStockResult;
+};
+
 export type NewsFeed = {
   authors: string[];
   banner_image: string;
@@ -113,8 +130,7 @@ export type DaiyStockMetaData = {
 };
 
 export type DailyStockResult = {
-  'Meta Data': Record;
-  'Time Series (Daily)': {
+  [key: string]: {
     [key: string]: Record;
   };
 };
@@ -128,7 +144,7 @@ export type FormattedDailyStockResult = {
 
 export type DailyStockChartItem = {
   originalDate: string;
-  date: string;
   tooltip: string;
   price: number;
+  date: string;
 };

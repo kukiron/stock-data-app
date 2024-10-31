@@ -65,8 +65,8 @@ function News() {
   } = useContext(StockContext);
 
   const [newsFeed, setNewsFeed] = useState<NewsFeed[]>([]);
-  const [error, setError] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const input = !demo ? activeData?.symbol : undefined;

@@ -8,7 +8,7 @@ import reportWebVitals from './reportWebVitals';
 
 const theme = createTheme({
   typography: {
-    fontFamily: ['Inter', 'Roboto', '"Helvetica Neue"'].join(','),
+    fontFamily: ['Quicksand', 'Roboto', '"Helvetica Neue"'].join(','),
   },
 });
 

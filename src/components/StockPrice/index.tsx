@@ -1,69 +1,33 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
-import { CardContent, CircularProgress, Typography } from '@mui/material';
+import { lazy, Suspense, useContext } from 'react';
+import { Box, CardContent, Tab, Tabs, Typography } from '@mui/material';
 import ChartIcon from '@mui/icons-material/TrendingUp';
-import styled from 'styled-components';
 
-import { fetchDailyStockData } from 'data/api';
-import { formatDailyStockResults } from 'lib/common';
-import { formatChartData } from 'lib/chart';
-import type { FormattedDailyStockResult } from 'data/types';
+import { useUpdateStockData } from 'hooks';
 
 import { StockContext } from 'contexts/StockContext';
-import AreaChart from './AreaChart';
 import Summary from './Summary';
-import { Card } from '../common';
+import { Card, LoaderSpinner } from '../common';
 
-const LoaderWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-  row-gap: 1.5rem;
-`;
+const AreaChart = lazy(() => import('./AreaChart'));
 
 function StockPrice() {
   const {
-    demo,
     appState: { activeData },
   } = useContext(StockContext);
 
-  const [dailyStock, setDailyStock] =
-    useState<FormattedDailyStockResult | null>(null);
-  const [error, setError] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(true);
-
-  const chartData = useMemo(
-    () => (dailyStock ? formatChartData(dailyStock) : []),
-    [dailyStock]
-  );
-
-  useEffect(() => {
-    const input = !demo ? activeData?.symbol : undefined;
-    // fetch data if running the app with demo endpoints
-    // or after a successful search, which will set/change the `activeData`
-    if (demo || activeData) {
-      fetchDailyStockData(input).then(({ success, message, result }) => {
-        if (!success || !result) {
-          setError(message);
-        }
-        setDailyStock(formatDailyStockResults(result));
-        setLoading(false);
-      });
-    }
-  }, [demo, activeData]);
+  const {
+    timeSeries: { text: range, type: category },
+    error,
+    loading,
+    chartData,
+    metaData,
+    tabs,
+    currentTab: tabIndex,
+    updateStockData,
+  } = useUpdateStockData();
 
   const renderContent = () => {
-    if (loading) {
-      return (
-        <LoaderWrapper>
-          <CircularProgress />
-          <Typography color="text.secondary">Updating stock data...</Typography>
-        </LoaderWrapper>
-      );
-    }
-
-    if (error || !chartData.length) {
+    if (error) {
       return (
         <Typography align="center" variant="subtitle1" color="red">
           {error}
@@ -71,13 +35,49 @@ function StockPrice() {
       );
     }
 
+    const latestPrice = chartData[chartData.length - 1]?.price || 0;
+    const earliestPrice = chartData[0]?.price || 0;
+    const prices = [earliestPrice, latestPrice];
+
     return (
       <>
         <Summary
-          price={chartData[chartData.length - 1].price}
-          metaData={dailyStock!['Meta Data']}
+          loading={loading}
+          prices={prices}
+          metaData={metaData}
+          timeRange={range}
         />
-        <AreaChart data={chartData} currency={activeData?.currency || ''} />
+
+        <Box sx={{ width: '100%' }}>
+          <Box sx={{ p: 1 }}>
+            <Tabs
+              variant="scrollable"
+              value={tabIndex}
+              onChange={(_, newValue) => updateStockData(newValue)}
+            >
+              {tabs.map((tab) => (
+                <Tab
+                  key={tab}
+                  label={tab}
+                  disabled={loading}
+                  sx={{ fontWeight: 'bold' }}
+                />
+              ))}
+            </Tabs>
+          </Box>
+
+          {loading || !chartData.length ? (
+            <LoaderSpinner />
+          ) : (
+            <Suspense fallback={<LoaderSpinner />}>
+              <AreaChart
+                data={chartData}
+                category={category}
+                currency={activeData?.currency || ''}
+              />
+            </Suspense>
+          )}
+        </Box>
       </>
     );
   };

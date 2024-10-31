@@ -9,10 +9,7 @@ import { useRef, useEffect, useMemo } from 'react';
 
 // hook to safely use lodash debounce
 // to avoid cases where debounce becomes essentially just a delayed function call
-const useDebounce = (
-  callback: (...args: any) => any,
-  timeout: number = 500
-) => {
+function useDebounce(callback: (...args: any) => any, timeout: number = 500) {
   const ref = useRef<any>();
 
   useEffect(() => {
@@ -28,6 +25,6 @@ const useDebounce = (
   }, [timeout]);
 
   return debouncedCallback;
-};
+}
 
 export default useDebounce;

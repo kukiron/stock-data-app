@@ -1,4 +1,3 @@
-import keys from 'lodash/keys';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { CardContent, Typography } from '@mui/material';
 import FinancialsIcon from '@mui/icons-material/AccountBalance';
@@ -7,8 +6,11 @@ import styled from 'styled-components';
 
 import { fetchCompanyOverview } from 'data/api';
 import { gray80 } from 'lib/colors';
-import { OVERVIEW_FIELDS } from 'lib/constants';
-import { formatFiancialValue, formatInfoTitle } from 'lib/common';
+import {
+  formatFiancialValue,
+  formatInfoTitle,
+  splitCompanyOverview,
+} from 'lib/common';
 import type { CompanyOverview } from 'data/types';
 
 import { StockContext } from 'contexts/StockContext';
@@ -46,25 +48,13 @@ function Financials() {
   } = useContext(StockContext);
 
   const [overview, setOverview] = useState<CompanyOverview>();
-  const [error, setError] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
 
-  const { financials, company } = useMemo(() => {
-    const overviewItems = overview ? keys(overview) : [];
-    return overviewItems.reduce<{ financials: string[]; company: string[] }>(
-      (acc, item) => {
-        switch (true) {
-          case OVERVIEW_FIELDS.financials.includes(item):
-            return { ...acc, financials: [...acc.financials, item] };
-          case OVERVIEW_FIELDS.company.includes(item):
-            return { ...acc, company: [...acc.company, item] };
-          default:
-            return acc;
-        }
-      },
-      { financials: [], company: [] }
-    );
-  }, [overview]);
+  const { financials, company } = useMemo(
+    () => splitCompanyOverview(overview),
+    [overview]
+  );
 
   useEffect(() => {
     const input = !demo ? activeData?.symbol : undefined;

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { lightGrey } from 'lib/colors';
-import { DailyStockChartItem } from 'data/types';
+import type { DailyStockChartItem } from 'data/types';
 
 const Wrapper = styled.div`
   background: ${lightGrey};

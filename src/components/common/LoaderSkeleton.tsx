@@ -7,7 +7,15 @@ const FlexWrapper = styled.div`
   display: flex;
   align-items: center;
   column-gap: 1rem;
+`;
+
+const NewsItemWrapper = styled(FlexWrapper)`
   padding: 0.75rem;
+`;
+
+const SummaryContentWrapper = styled(FlexWrapper)`
+  padding: 0.5rem;
+  column-gap: 0.5rem;
 `;
 
 const Container = styled.div`
@@ -43,7 +51,7 @@ function NewsLoaderSkeleton() {
     <Container>
       {Array.from({ length: 3 }).map((_, index) => (
         <ItemWrapper key={index}>
-          <FlexWrapper key={index}>
+          <NewsItemWrapper key={index}>
             <Skeleton
               animation="wave"
               variant="rounded"
@@ -54,7 +62,7 @@ function NewsLoaderSkeleton() {
               <Skeleton animation="wave" height={15} width="30%" />
               <Skeleton animation="wave" height={15} width="90%" />
             </RowWrapper>
-          </FlexWrapper>
+          </NewsItemWrapper>
           <Divider />
         </ItemWrapper>
       ))}
@@ -78,4 +86,28 @@ function OverviewLoaderSkeleton() {
   );
 }
 
-export { NewsLoaderSkeleton, OverviewLoaderSkeleton };
+function SummaryDataSkeleton({ loading }: { loading: boolean }) {
+  const wave = loading ? 'wave' : false;
+  return (
+    <>
+      <SummaryContentWrapper style={{ width: '10rem', alignItems: 'flex-end' }}>
+        <Skeleton animation={wave} height={40} width="70%" />
+        <Skeleton animation={wave} height={20} width="30%" />
+      </SummaryContentWrapper>
+
+      <SummaryContentWrapper style={{ width: '15rem' }}>
+        <Skeleton animation={wave} height={15} width="30%" />
+        <Skeleton animation={wave} height={15} width="30%" />
+        <Skeleton animation={wave} height={12} width="40%" />
+      </SummaryContentWrapper>
+
+      <SummaryContentWrapper style={{ width: '22.5rem' }}>
+        <Skeleton animation={wave} height={12} width="35%" />
+        <Skeleton animation={wave} height={12} width="45%" />
+        <Skeleton animation={wave} height={12} width="20%" />
+      </SummaryContentWrapper>
+    </>
+  );
+}
+
+export { NewsLoaderSkeleton, OverviewLoaderSkeleton, SummaryDataSkeleton };

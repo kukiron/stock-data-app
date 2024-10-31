@@ -5,8 +5,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import { styled as muiStyled } from '@mui/material/styles';
 import styled from 'styled-components';
 
+import { useDebounce } from 'hooks';
 import { searchStockData } from 'data/api';
-import useDebounce from 'hooks/useDebounce';
 import { gray50 } from 'lib/colors';
 import { formatSearchResults } from 'lib/common';
 import { ActionTypes, DEFAULT_QUERY } from 'lib/constants';
@@ -27,7 +27,7 @@ const AutocompleteWrapper = styled.div<{ $disabled: boolean }>`
 
   .MuiAutocomplete-loading {
     font-size: 0.9rem;
-    font-family: Inter, Roboto;
+    font-family: Quicksand, Roboto;
   }
 
   input {
@@ -155,7 +155,7 @@ function Searchbar({ disabled }: Props) {
           />
         )}
         ListboxProps={{
-          id: 'port-dropdown',
+          id: 'company-dropdown',
           style: listStyles,
         }}
         PopperComponent={StyledPopper}

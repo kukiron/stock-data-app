@@ -16,7 +16,7 @@ function StockPrice() {
   } = useContext(StockContext);
 
   const {
-    timeSeries: { type: category },
+    timeSeries: { text: range, type: category },
     error,
     loading,
     chartData,
@@ -35,12 +35,17 @@ function StockPrice() {
       );
     }
 
+    const latestPrice = chartData[chartData.length - 1]?.price || 0;
+    const earliestPrice = chartData[0]?.price || 0;
+    const prices = [earliestPrice, latestPrice];
+
     return (
       <>
         <Summary
           loading={loading}
-          price={chartData[chartData.length - 1]?.price}
+          prices={prices}
           metaData={metaData}
+          timeRange={range}
         />
 
         <Box sx={{ width: '100%' }}>

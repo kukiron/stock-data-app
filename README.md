@@ -54,9 +54,16 @@ The following endpoints are used to build the app features.
 
   Used to fetch latest news of the company in financial market. Top 6 news based on sentiment score are displayed,
 
-- `/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={apiKey}`
+- `/query?function={timeSeries}&symbol={symbol}&apikey={apiKey}`
 
-   Used to display stock price trend in a area chart view with additional metadata.
+  Used to display stock price trend in a area chart view with additional metadata.
+
+  Here the `function` query param can be one of -
+  - `TIME_SERIES_INTRADAY`: To display stock data for past 1-5 days (every 5 min interval)
+  - `TIME_SERIES_DAILY`: To display stock data for past 1-12 months (daily data)
+  - `TIME_SERIES_WEEKLY`: To display stock data for past 5 years (weekly data)
+
+  The chart view is updated based on selected stock data category/time-range.
 
 ## Deployment
 

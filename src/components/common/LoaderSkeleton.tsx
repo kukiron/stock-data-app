@@ -90,18 +90,18 @@ function SummaryDataSkeleton({ loading }: { loading: boolean }) {
   const wave = loading ? 'wave' : false;
   return (
     <>
-      <SummaryContentWrapper style={{ width: '15%', alignItems: 'flex-end' }}>
+      <SummaryContentWrapper style={{ width: '10rem', alignItems: 'flex-end' }}>
         <Skeleton animation={wave} height={40} width="70%" />
         <Skeleton animation={wave} height={20} width="30%" />
       </SummaryContentWrapper>
 
-      <SummaryContentWrapper style={{ width: '30%' }}>
+      <SummaryContentWrapper style={{ width: '15rem' }}>
         <Skeleton animation={wave} height={15} width="30%" />
         <Skeleton animation={wave} height={15} width="30%" />
         <Skeleton animation={wave} height={12} width="40%" />
       </SummaryContentWrapper>
 
-      <SummaryContentWrapper style={{ width: '45%' }}>
+      <SummaryContentWrapper style={{ width: '22.5rem' }}>
         <Skeleton animation={wave} height={12} width="35%" />
         <Skeleton animation={wave} height={12} width="45%" />
         <Skeleton animation={wave} height={12} width="20%" />

@@ -145,7 +145,7 @@ function Searchbar({ disabled }: Props) {
         renderInput={(params) => (
           <TextField
             {...params}
-            placeholder="Type company symbol, e.g - TSLA"
+            placeholder="Type company symbol, e.g - AAPL for Apple Inc"
             slotProps={{
               input: {
                 ...params.InputProps,

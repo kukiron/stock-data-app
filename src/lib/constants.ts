@@ -58,7 +58,7 @@ export const STOCK_TYPES: StockDataType[] = [
     text: 'YTD',
     type: StockCategory.daily,
     value: 4,
-    description: 'Year to date',
+    description: 'year to date',
   },
   { text: '1Y', type: StockCategory.daily, value: 5, description: 'past year' },
   {

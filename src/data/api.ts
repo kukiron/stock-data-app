@@ -21,8 +21,9 @@ const getApiKey = (isDemo: boolean) =>
 
 // response is failing with `Information` about API limit or other errors
 const handleFailedResponse = (response?: FailedResponse) => {
-  if (response?.Information || response?.['Error Message']) {
-    throw new Error(response?.Information);
+  const error = response?.Information || response?.['Error Message'];
+  if (error) {
+    throw new Error(error);
   }
 };
 

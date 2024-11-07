@@ -1,5 +1,7 @@
 # Company Stock Data App
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d103c84e-9b0d-4bc5-bcad-258c67a8def8/deploy-status)](https://app.netlify.com/sites/company-stock-data-app/deploys)
+
 This app presents company stock price real-time data.
 
 The initial aim was to build a clone of [Google Finance](https://www.google.com/finance/). But ended up as a "discount version", mainly because of the API call limit.
